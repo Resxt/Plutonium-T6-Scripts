@@ -71,7 +71,7 @@ If after opening the file you see that it has a lot of non readable characters t
 
 Before downloading a script it's important to understand what compiled and source scripts mean.  
 A source script is the script in a human readable form (a text file), this is how the script is written.  
-A compiled script is simply a source script that has been compiled by an interpreter to make it readable by the game.  
+A compiled script is simply a source script that has been compiled by a compiler to make it readable by the game.  
 At the time of writing, T6 cannot read source scripts so you have to compile them to allow the game to read them.
 
 So if you only want to use a script and you don't want to edit a script or review its code then  
