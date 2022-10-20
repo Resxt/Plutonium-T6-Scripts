@@ -47,7 +47,7 @@ Make sure to put `All` or `Any` for the file type and to add `.gsc` at the end o
 
 [Follow the instructions in the documentation](https://plutonium.pw/docs/modding/loading-mods/#loading-existing-scripts-on-t6)
 
-Simply drop a compiled `.gsc` file inside `%localappdata%\Plutonium\storage\t6\scripts`.  
+If the script should be loaded for both the multiplayer and the zombies mode then drop the file in `%localappdata%\Plutonium\storage\t6\scripts`
 If the script should only be loaded for the multiplayer mode then put it in the `mp` folder.  
 If the script should only be loaded for the zombies mode then put it in the `zm` folder.  
 
