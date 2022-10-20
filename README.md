@@ -10,6 +10,8 @@ Huge thanks to everyone who helped me learn GSC: Birchy, DoktorSAS, FutureRave a
 
 ## How do I download a script?
 
+If you are unsure whether you should download a compiled or a source script, first read [What are compiled and source scripts?](#what-are-compiled-and-source-scripts)
+
 ### Compiled / Ready to use script
 
 To download a compiled script, click on a `.gsc` file that **doesn't** end with `-source` and click on `Download`.
@@ -70,7 +72,8 @@ A source script is the script in a human readable form (a text file), this is ho
 A compiled script is simply a source script that has been compiled by an interpreter to make it readable by the game.  
 At the time of writing, T6 cannot read source scripts so you have to compile them to allow the game to read them.
 
-So if you only want to use a script and you don't want to edit a script or review its code you can simply [download a compiled script](#compiled--ready-to-use-script) and [start using it](#how-do-i-use-a-compiled-script).
+So if you only want to use a script and you don't want to edit a script or review its code then  
+you can simply [download a compiled script](#compiled--ready-to-use-script) and [start using it](#how-do-i-use-a-compiled-script).
 
 All of my scripts always come as two files:
 
