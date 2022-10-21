@@ -10,7 +10,6 @@
 */
 
 #include maps\mp\gametypes\_hud_util;
-#include maps\mp\gametypes_zm\_hud_util;
 #include common_scripts\utility;
 #include maps\mp\_utility;
 
@@ -54,7 +53,7 @@ InitDvars()
     SetDvarIfNotInitialized("mapvote_debug", false);
 
     SetDvarIfNotInitialized("mapvote_maps", "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff");
-    SetDvarIfNotInitialized("mapvote_modes", "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth");
+    SetDvarIfNotInitialized("mapvote_modes", "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth");
     SetDvarIfNotInitialized("mapvote_colors_selected", "blue");
     SetDvarIfNotInitialized("mapvote_colors_unselected", "white");
     SetDvarIfNotInitialized("mapvote_colors_timer", "blue");
@@ -209,11 +208,8 @@ ListenForVoteInputs()
 
 CreateVoteMenu()
 {
-    //level endon("game_ended");
-
     spacing = 20;
     hudLastPosY = -(((level.mapvote["maps"]["by_index"].size + level.mapvote["modes"]["by_index"].size + 1) * spacing) / 2);
-    //hudLastPosY = -100;
 
     for (mapIndex = 0; mapIndex < level.mapvote["maps"]["by_index"].size; mapIndex++)
     {
@@ -373,6 +369,13 @@ ListenForEndVote()
             Print("[MAPVOTE] No vote for map. Chosen random map index: " + mostVotedMapIndex);
         }
     }
+    else
+    {
+        if (GetDvarInt("mapvote_debug"))
+        {
+            Print("[MAPVOTE] Most voted map has " + mostVotedMapVotes + " votes. Most voted map index: " + mostVotedMapIndex);
+        }
+    }
 
     if (mostVotedModeVotes == 0)
     {
@@ -383,6 +386,13 @@ ListenForEndVote()
             Print("[MAPVOTE] No vote for mode. Chosen random mode index: " + mostVotedModeIndex);
         }
     }
+    else
+    {
+        if (GetDvarInt("mapvote_debug"))
+        {
+            Print("[MAPVOTE] Most voted mode has " + mostVotedModeVotes + " votes. Most voted mode index: " + mostVotedModeIndex);
+        }
+    }
 
     modeName = level.mapvote["modes"]["by_index"][mostVotedModeIndex];
     modeCfg = level.mapvote["modes"]["by_name"][level.mapvote["modes"]["by_index"][mostVotedModeIndex]];
@@ -390,6 +400,9 @@ ListenForEndVote()
     
     if (GetDvarInt("mapvote_debug"))
     {
+        Print("[MAPVOTE] mapName: " + mapName);
+        Print("[MAPVOTE] modeName: " + modeName);
+        Print("[MAPVOTE] modeCfg: " + modeCfg);
         Print("[MAPVOTE] Rotating to " + mapName + " | " + modeName + " (" + modeCfg + ".cfg)");
     }
 
@@ -431,7 +444,7 @@ SetMapvoteData(type)
 
         foreach (mode in GetRandomUniqueElementsInArray(availableElements, limit))
         {
-            splittedMode = StrTok(mode, ";");
+            splittedMode = StrTok(mode, ",");
             finalElements = AddElementToArray(finalElements, splittedMode[0]);
 
             level.mapvote["modes"]["by_name"][splittedMode[0]] = splittedMode[1];

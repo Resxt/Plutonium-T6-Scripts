@@ -50,7 +50,7 @@ Here are the dvars you can configure:
 | mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_maps | A list of the maps that are available for rotation. Each map name needs to start with a capitalized letter and each map is separated with : | Every BO2 maps including DLC maps | Any map name, starting with a capitalized letter and separated with a colon (:) |
-| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load found in the gamesettings folder | "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth" | Any name you want followed by a semi-colon (;) with the cfg name and separated with a colon (:) |
+| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load found in the gamesettings folder | "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" | Any name you want followed by a comma (,) with the cfg name and separated with a colon (:) |
 | mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
 | mapvote_colors_unselected | The color of the text when not hovered and not selected | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
 | mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
@@ -69,20 +69,20 @@ Below is an example CFG showing how each dvars can be configured.
 The values you see are the default values that will be used if you don't set a dvar.  
 
 ```c
-set "mapvote_enable" 1
-set "mapvote_maps" "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff"
-set "mapvote_modes" "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth"
-set "mapvote_colors_selected" "blue"
-set "mapvote_colors_unselected" "white"
-set "mapvote_colors_timer" "blue"
-set "mapvote_colors_timer_low" "red"
-set "mapvote_colors_help_text" "white"
-set "mapvote_colors_help_accent" "blue"
-set "mapvote_colors_help_accent_mode" "standard"
-set "mapvote_vote_time" 30
-set "mapvote_blur_level" 2.5
-set "mapvote_blur_fade_in_time" 2
-set "mapvote_horizontal_spacing" 75
+set mapvote_enable 1
+set mapvote_maps "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff"
+set mapvote_modes "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth"
+set mapvote_colors_selected "blue"
+set mapvote_colors_unselected "white"
+set mapvote_colors_timer "blue"
+set mapvote_colors_timer_low "red"
+set mapvote_colors_help_text "white"
+set mapvote_colors_help_accent "blue"
+set mapvote_colors_help_accent_mode "standard"
+set mapvote_vote_time 30
+set mapvote_blur_level 2.5
+set mapvote_blur_fade_in_time 2
+set mapvote_horizontal_spacing 75
 ```
 
 Here are some pre-set values if you want to quickly copy/paste something
@@ -91,12 +91,12 @@ Here are some pre-set values if you want to quickly copy/paste something
 |---|---|
 | All base game maps | "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen" |
 | All DLC maps | "Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff" |
-| Classic modes | "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth" |
-| Objective modes | "Demolition;dem:Headquaters;hq:Capture the Flag;ctf" |
-| Alternative modes | "Kill Confirmed;conf:One Flag CTF;oneflag" |
-| Party modes | "Gun Game;gun:One in the Chamber;oic:Sharpshooter;shrp:Sticks & Stones;sas" |
-| FFA 24/7 | "Free for All;dm" |
-| SND 24/7 | "Search & Destroy;sd" |
+| Classic modes | "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" |
+| Objective modes | "Demolition,dem:Headquaters,hq:Capture the Flag,ctf" |
+| Alternative modes | "Kill Confirmed,conf:One Flag CTF,oneflag" |
+| Party modes | "Gun Game,gun:One in the Chamber,oic:Sharpshooter,shrp:Sticks & Stones,sas" |
+| FFA 24/7 | "Free for All,dm" |
+| SND 24/7 | "Search & Destroy,sd" |
 
 ### Notes
 
