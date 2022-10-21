@@ -10,7 +10,11 @@ This is heavily inspired by [LastDemon99's IW5 mapvote](https://github.com/LastD
 I also re-used some code from [DoktorSAS T6 mapvote](https://github.com/DoktorSAS/PlutoniumT6Mapvote).  
 Huge thanks to both of them.
 
-![mapvote](images/mapvote.png)
+![mapvote1](images/mapvote1.png)
+*Mouse and keyboard input. Settings: default*
+
+![mapvote1](images/mapvote2.png)
+*Controller input. Settings: red colors, blur level: 5, horizontal spacing: 100, accent mode: max*
 
 ## mapvote.gsc
 
@@ -23,6 +27,7 @@ This script can either be installed in the `scripts` folder or in the `scripts\m
 - It has separate map and mode choices
 - It supports custom gamemode names and custom cfg
 - It rotates a completely random map and mode when there are no votes
+- Controllers are fully supported and work out of the box
 - It has a good level of customization
 - It has a debug mode to quickly preview the menu
 

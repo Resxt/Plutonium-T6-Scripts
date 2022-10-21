@@ -125,8 +125,8 @@ ListenForVoteInputs()
 
     self notifyonplayercommand("down", "+attack");
     self notifyonplayercommand("select", "+gostand");
-    self notifyonplayercommand("select", "+usereload");
-    self notifyonplayercommand("select", "+activate");
+    self notifyonplayercommand("unselect", "+usereload");
+    self notifyonplayercommand("unselect", "+activate");
     self notifyonplayercommand("unselect", "+frag");
     
     if (GetDvarInt("mapvote_debug"))
@@ -270,11 +270,11 @@ CreateVoteMenu()
 
         if (level.mapvote["colors"]["help_accent_mode"] == "standard")
         {
-            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go down - Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go up - Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] OR [{+activate}] " + level.mapvote["colors"]["help_text"] + "to select - Press " + level.mapvote["colors"]["help_accent"] + "[{+frag}] " + level.mapvote["colors"]["help_text"] + "to undo";
+            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go down - Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go up - Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] " + level.mapvote["colors"]["help_text"] + "to select - Press " + level.mapvote["colors"]["help_accent"] + "[{+activate}] " + level.mapvote["colors"]["help_text"] + "to undo";
         }
         else if(level.mapvote["colors"]["help_accent_mode"] == "max")
         {
-            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "down " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "up " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] " + level.mapvote["colors"]["help_accent"] + "OR " + level.mapvote["colors"]["help_accent"] + "[{+activate}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "select " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+frag}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "undo";
+            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "down " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "up " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "select " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+activate}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "undo";
         }
 
         if (GetDvarInt("mapvote_debug"))
