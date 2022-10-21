@@ -69,19 +69,20 @@ Below is an example CFG showing how each dvars can be configured.
 The values you see are the default values that will be used if you don't set a dvar.  
 
 ```c
-set "mapvote_maps", "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff"
-set "mapvote_modes", "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth"
-set "mapvote_colors_selected", "blue"
-set "mapvote_colors_unselected", "white"
-set "mapvote_colors_timer", "blue"
-set "mapvote_colors_timer_low", "red"
-set "mapvote_colors_help_text", "white"
-set "mapvote_colors_help_accent", "blue"
-set "mapvote_colors_help_accent_mode", "standard"
-set "mapvote_vote_time", 30
-set "mapvote_blur_level", 2.5
-set "mapvote_blur_fade_in_time", 2
-set "mapvote_horizontal_spacing", 75
+set "mapvote_enable" 1
+set "mapvote_maps" "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff"
+set "mapvote_modes" "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth"
+set "mapvote_colors_selected" "blue"
+set "mapvote_colors_unselected" "white"
+set "mapvote_colors_timer" "blue"
+set "mapvote_colors_timer_low" "red"
+set "mapvote_colors_help_text" "white"
+set "mapvote_colors_help_accent" "blue"
+set "mapvote_colors_help_accent_mode" "standard"
+set "mapvote_vote_time" 30
+set "mapvote_blur_level" 2.5
+set "mapvote_blur_fade_in_time" 2
+set "mapvote_horizontal_spacing" 75
 ```
 
 Here are some pre-set values if you want to quickly copy/paste something
