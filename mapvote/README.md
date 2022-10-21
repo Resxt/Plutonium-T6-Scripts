@@ -32,7 +32,7 @@ By default the script is disabled to avoid running on all your servers.
 Simply set `mapvote_enable` to 1 and the script will be loaded, which as a result will display the voting menu after the killcam.  
 
 To configure the menu before putting it on your server I recommend running it in a custom game with the `mapvote_debug` dvar set to `1`.  
-To do that simply boot up the game with the scripts installed and paste this command in the console `set mapvote_enable 1;set mapvote_debug 1`.  
+To do that use this command in the console `set mapvote_enable 1;set mapvote_debug 1` before running a custom game.  
 Start a custom game and pick any class and you will see the menu. Everything will work but map rotation which is normal.  
 You can then configure the dvars directly in your console and restart the map with `map_restart` in the console to edit the menu quickly and get your perfect setup.
 
