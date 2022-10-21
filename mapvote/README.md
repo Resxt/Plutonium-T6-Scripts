@@ -10,10 +10,10 @@ This is heavily inspired by [LastDemon99's IW5 mapvote](https://github.com/LastD
 I also re-used some code from [DoktorSAS T6 mapvote](https://github.com/DoktorSAS/PlutoniumT6Mapvote).  
 Huge thanks to both of them.
 
-![mapvote1](images/mapvote1.png)
+![mapvote1](https://raw.githubusercontent.com/Resxt/Plutonium-T6-Scripts/main/mapvote/images/mapvote1.png)
 *Mouse and keyboard input. Settings: default*
 
-![mapvote1](images/mapvote2.png)
+![mapvote2](https://raw.githubusercontent.com/Resxt/Plutonium-T6-Scripts/main/mapvote/images/mapvote2.png)
 *Controller input. Settings: red colors, blur level: 5, horizontal spacing: 100, accent mode: max*
 
 ## mapvote.gsc
