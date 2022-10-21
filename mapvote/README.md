@@ -40,23 +40,23 @@ You can then configure the dvars directly in your console and restart the map wi
 
 Here are the dvars you can configure:
 
-| Name | Description | Default value | Accepted values | Example |
-|---|---|---|---|---|
-| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 | 0 or 1 | 1 |
-| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 | 1 |
-| mapvote_maps | A list of the maps that are available for rotation. Each map name needs to start with a capitalized letter and each map is separated with : | Every BO2 maps including DLC maps | Any map name, starting with a capitalized letter and separated with a colon (:) | "Nuketown:Raid" |
-| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load found in the gamesettings folder | "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth" | Any name you want followed by a semi-colon (;) with the cfg name and separated with a colon (:) | "Team Deathmatch;tdm:Domination;dom" |
-| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "red" |
-| mapvote_colors_unselected | The color of the text when not hovered and not selected | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "green" |
-| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "yellow" |
-| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | "red" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "blue" |
-| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "cyan" |
-| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black | "purple" |
-| mapvote_colors_help_accent_mode | The accenting mode for the help text. <standard> only puts the accent color on the button to press and <max> puts it on both the buttons and the action it does | "standard" | standard, max | "max" |
-| mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 | 20 |
-| mapvote_blur_level | The amount of blur to put at the end of the killcam. The max recommended value is 5. 0 disables it | 2.5 | Any number | 3 |
-| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach <mapvote_blur_level>. For example if you set it to 10 and <mapvote_blur_level> is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number | 5 |
-| mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to your map and modes length so that it doesn't overlap with the vote counts | 75 | Any plain number | 50 |
+| Name | Description | Default value | Accepted values |
+|---|---|---|---|
+| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 | 0 or 1 |
+| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
+| mapvote_maps | A list of the maps that are available for rotation. Each map name needs to start with a capitalized letter and each map is separated with : | Every BO2 maps including DLC maps | Any map name, starting with a capitalized letter and separated with a colon (:) |
+| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load found in the gamesettings folder | "Team Deathmatch;tdm:Domination;dom:Hardpoint;koth" | Any name you want followed by a semi-colon (;) with the cfg name and separated with a colon (:) |
+| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_unselected | The color of the text when not hovered and not selected | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | "red" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent_mode | The accenting mode for the help text. <standard> only puts the accent color on the button to press and <max> puts it on both the buttons and the action it does | "standard" | standard or max |
+| mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 |
+| mapvote_blur_level | The amount of blur to put at the end of the killcam. The max recommended value is 5. 0 disables it | 2.5 | Any number |
+| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach <mapvote_blur_level>. For example if you set it to 10 and <mapvote_blur_level> is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
+| mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to your map and modes length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 
 ### Configuration
 
