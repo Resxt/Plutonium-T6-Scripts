@@ -60,7 +60,7 @@ Here are the dvars you can configure:
 | mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | "standard" | standard or max |
 | mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 |
 | mapvote_blur_level | The amount of blur to put at the end of the killcam. The max recommended value is 5. 0 disables it | 2.5 | Any number |
-| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach <mapvote_blur_level>. For example if you set it to 10 and <mapvote_blur_level> is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
+| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to your map and modes length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 
 ### Configuration
