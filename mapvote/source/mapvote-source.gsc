@@ -40,7 +40,7 @@ InitMapvote()
     {
         Print("[MAPVOTE] Debug mode is ON");
         wait 3;
-        level notify("vote_start");
+        level notify("mapvote_vote_start");
     }
     else
     {
@@ -97,9 +97,9 @@ InitVariables()
 /* Player section */
 
 /*
-This is used instead of notifyonplayercommand("down", "speed_throw") 
+This is used instead of notifyonplayercommand("mapvote_up", "speed_throw") 
 to fix an issue where players using toggle ads would have to press right click twice for it to register one right click.
-With this instead it keeps scrolling even 0.35s until they right click again which is a better user experience
+With this instead it keeps scrolling every 0.35s until they right click again which is a better user experience
 */
 ListenForRightClick()
 {
@@ -109,7 +109,7 @@ ListenForRightClick()
     {
         if (self AdsButtonPressed())
         {
-            self notify("up");
+            self notify("mapvote_up");
             wait 0.35;
         }
 
@@ -123,29 +123,28 @@ ListenForVoteInputs()
 
     self thread ListenForRightClick();
 
-    self notifyonplayercommand("down", "+attack");
-    self notifyonplayercommand("select", "+gostand");
-    self notifyonplayercommand("unselect", "+usereload");
-    self notifyonplayercommand("unselect", "+activate");
-    self notifyonplayercommand("unselect", "+frag");
+    self notifyonplayercommand("mapvote_down", "+attack");
+    self notifyonplayercommand("mapvote_select", "+gostand");
+    self notifyonplayercommand("mapvote_unselect", "+usereload");
+    self notifyonplayercommand("mapvote_unselect", "+activate");
     
     if (GetDvarInt("mapvote_debug"))
     {
-        self notifyonplayercommand("debug", "+melee");
+        self notifyonplayercommand("mapvote_debug", "+melee");
     }
 
     while(true)
     {
-        input = self waittill_any_return("down", "up", "select", "unselect", "debug");
+        input = self waittill_any_return("mapvote_down", "mapvote_up", "mapvote_select", "mapvote_unselect", "mapvote_debug");
 
         section = self.mapvote["vote_section"];
 
-        if (section == "end" && input != "unselect" && input != "debug")
+        if (section == "end" && input != "mapvote_unselect" && input != "mapvote_debug")
         {
             continue; // stop/skip execution
         }
 
-        if (input == "down")
+        if (input == "mapvote_down")
         {
             if (self.mapvote[section]["hovered_index"] < (level.mapvote[section + "s"]["by_index"].size - 1))
             {
@@ -153,7 +152,7 @@ ListenForVoteInputs()
                 self UpdateSelection(section, (self.mapvote[section]["hovered_index"] + 1));
             }
         }
-        else if (input == "up")
+        else if (input == "mapvote_up")
         {
             if (self.mapvote[section]["hovered_index"] > 0)
             {
@@ -161,22 +160,20 @@ ListenForVoteInputs()
                 self UpdateSelection(section, (self.mapvote[section]["hovered_index"] - 1));
             }
         }
-        else if (input == "select")
+        else if (input == "mapvote_select")
         {
             self playlocalsound("mpl_killconfirm_tags_pickup");
-
             self ConfirmSelection(section);
         }
-        else if (input == "unselect")
+        else if (input == "mapvote_unselect")
         {
             if (section != "map")
             {
                 self playlocalsound("fly_betty_jump");
-
                 self CancelSelection(section);
             }
         }
-        else if (input == "debug" && GetDvarInt("mapvote_debug"))
+        else if (input == "mapvote_debug" && GetDvarInt("mapvote_debug"))
         {
             Print("--------------------------------");
 
@@ -309,13 +306,13 @@ CreateVoteTimer()
 		}
 		wait(1);
 	}	
-	level notify("vote_end");
+	level notify("mapvote_vote_end");
 }
 
 ListenForStartVote()
 {
     level endon("end_game");
-    level waittill("vote_start");
+    level waittill("mapvote_vote_start");
 
     for (i = 0; i < level.mapvote["maps"]["by_index"].size; i++)
     {
@@ -342,7 +339,7 @@ ListenForStartVote()
 ListenForEndVote()
 {
     level endon("end_game");
-    level waittill("vote_end");
+    level waittill("mapvote_vote_end");
 
     mostVotedMapIndex = 0;
     mostVotedMapVotes = 0;

@@ -16,8 +16,8 @@ OnKillcamEnd()
 			return false;	
 		wait 3;
 		
-		level notify("vote_start");
-		level waittill("vote_end");
+		level notify("mapvote_vote_start");
+		level waittill("mapvote_vote_end");
         return false;
     }
 	
@@ -26,7 +26,7 @@ OnKillcamEnd()
 		return true;
 	wait 3;
 
-	level notify("vote_start");
-	level waittill("vote_end");	
+	level notify("mapvote_vote_start");
+	level waittill("mapvote_vote_end");	
     return true;
 }
