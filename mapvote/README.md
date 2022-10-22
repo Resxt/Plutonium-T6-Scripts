@@ -100,6 +100,7 @@ Here are some pre-set values if you want to quickly copy/paste something
 
 ### Notes
 
+- If right click is set to toggle ads then pressing right click will make the player go up by one every 0.35s. If I didn't change it to be that way players with toggle ads would have to press right click twice to go up by one all the time. Now instead they simply right click once to start going up and right click again to stop.
 - When two maps/modes have the same votes, the lowest one in the list will win. In the future it would be nice to randomize between both
 - Ending the game with ESC doesn't work when in debug mode. Use `map_restart` in the console when your script is compiled. And if you want to leave use `disconnect` in the console until this is fixed  
 - When there's only one map/mode the right map/mode will be chosen but adding an option to hide single vote elements would be nice
