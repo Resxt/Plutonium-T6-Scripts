@@ -26,7 +26,7 @@ This script can either be installed in the `scripts` folder or in the `scripts\m
 - It allows up to 6 maps and 4 modes to be displayed at once
 - It has separate map and mode choices
 - It supports custom gamemode names and custom cfg
-- It rotates a completely random map and mode when there are no votes
+- It rotates a random map from the list when there are no votes for maps. Same applies for modes
 - Controllers are fully supported and work out of the box
 - It has a good level of customization
 - It has a debug mode to quickly preview the menu
