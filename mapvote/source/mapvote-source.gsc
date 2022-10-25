@@ -20,6 +20,9 @@ Init()
 {
     if (GetDvarInt("mapvote_enable"))
     {
+        level.mapvote_start_function = ::StartVote;
+        level.mapvote_end_function = ::ListenForEndVote;
+
         InitMapvote();
     }
 }
@@ -33,14 +36,12 @@ InitMapvote()
     InitDvars();
     InitVariables();
 
-    level thread ListenForStartVote();
-    level thread ListenForEndVote();
-
     if (GetDvarInt("mapvote_debug"))
     {
         Print("[MAPVOTE] Debug mode is ON");
         wait 3;
-        level notify("mapvote_vote_start");
+        level thread StartVote();
+        level thread ListenForEndVote();
     }
     else
     {
@@ -62,29 +63,19 @@ InitDvars()
     SetDvarIfNotInitialized("mapvote_colors_help_text", "white");
     SetDvarIfNotInitialized("mapvote_colors_help_accent", "blue");
     SetDvarIfNotInitialized("mapvote_colors_help_accent_mode", "standard");
+    SetDvarIfNotInitialized("mapvote_sounds_menu_enabled", 1);
+    SetDvarIfNotInitialized("mapvote_sounds_timer_enabled", 1);
     SetDvarIfNotInitialized("mapvote_vote_time", 30);
     SetDvarIfNotInitialized("mapvote_blur_level", 2.5);
     SetDvarIfNotInitialized("mapvote_blur_fade_in_time", 2);
     SetDvarIfNotInitialized("mapvote_horizontal_spacing", 75);
+    SetDvarIfNotInitialized("mapvote_display_wait_time", 1);
 }
 
 InitVariables()
 {
     SetMapvoteData("map");
     SetMapvoteData("mode");
-    level.mapvote["vote_time"] = GetDvarInt("mapvote_vote_time");
-
-    level.mapvote["colors"]["unselected"] = GetGscColor(GetDvar("mapvote_colors_unselected"));
-    level.mapvote["colors"]["selected"] = GetGscColor(GetDvar("mapvote_colors_selected"));
-    level.mapvote["colors"]["timer"] = GetGscColor(GetDvar("mapvote_colors_timer"));
-    level.mapvote["colors"]["timer_low"] = GetGscColor(GetDvar("mapvote_colors_timer_low"));
-    level.mapvote["colors"]["help_text"] = GetChatColor(GetDvar("mapvote_colors_help_text"));
-    level.mapvote["colors"]["help_accent"] = GetChatColor(GetDvar("mapvote_colors_help_accent"));
-    level.mapvote["colors"]["help_accent_mode"] = GetDvar("mapvote_colors_help_accent_mode");
-
-    level.mapvote["blur_level"] = GetDvarInt("mapvote_blur_level");
-    level.mapvote["blur_fade_in_time"] = GetDvarInt("mapvote_blur_fade_in_time");
-    level.mapvote["horizontal_spacing"] = GetDvarInt("mapvote_horizontal_spacing");
 
     level.mapvote["vote"]["maps"] = [];
     level.mapvote["vote"]["modes"] = [];
@@ -148,7 +139,11 @@ ListenForVoteInputs()
         {
             if (self.mapvote[section]["hovered_index"] < (level.mapvote[section + "s"]["by_index"].size - 1))
             {
-                self playlocalsound("uin_start_count_down");
+                if (GetDvarInt("mapvote_sounds_menu_enabled"))
+                {
+                    self playlocalsound("uin_start_count_down");
+                }
+
                 self UpdateSelection(section, (self.mapvote[section]["hovered_index"] + 1));
             }
         }
@@ -156,20 +151,32 @@ ListenForVoteInputs()
         {
             if (self.mapvote[section]["hovered_index"] > 0)
             {
-                self playlocalsound("uin_start_count_down");
+                if (GetDvarInt("mapvote_sounds_menu_enabled"))
+                {
+                    self playlocalsound("uin_start_count_down");
+                }
+
                 self UpdateSelection(section, (self.mapvote[section]["hovered_index"] - 1));
             }
         }
         else if (input == "mapvote_select")
         {
-            self playlocalsound("mpl_killconfirm_tags_pickup");
+            if (GetDvarInt("mapvote_sounds_menu_enabled"))
+            {
+                self playlocalsound("mpl_killconfirm_tags_pickup");
+            }
+
             self ConfirmSelection(section);
         }
         else if (input == "mapvote_unselect")
         {
             if (section != "map")
             {
-                self playlocalsound("fly_betty_jump");
+                if (GetDvarInt("mapvote_sounds_menu_enabled"))
+                {
+                    self playlocalsound("fly_betty_jump");
+                }
+
                 self CancelSelection(section);
             }
         }
@@ -214,14 +221,14 @@ CreateVoteMenu()
 
     for (mapIndex = 0; mapIndex < level.mapvote["maps"]["by_index"].size; mapIndex++)
     {
-        mapVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", level.mapvote["horizontal_spacing"], hudLastPosY, true, 0);
-        mapVotesHud.color = level.mapvote["colors"]["selected"];
+        mapVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
+        mapVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
 
         level.mapvote["hud"]["maps"][mapIndex] = mapVotesHud;
 
         foreach (player in GetHumanPlayers())
         {
-            player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(level.mapvote["maps"]["by_index"][mapIndex], "objective", 1.5, "LEFT", "CENTER", -level.mapvote["horizontal_spacing"], hudLastPosY);
+            player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(level.mapvote["maps"]["by_index"][mapIndex], "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
 
             if (mapIndex == 0)
             {
@@ -240,14 +247,14 @@ CreateVoteMenu()
 
     for (modeIndex = 0; modeIndex < level.mapvote["modes"]["by_index"].size; modeIndex++)
     {
-        modeVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", level.mapvote["horizontal_spacing"], hudLastPosY, true, 0);
-        modeVotesHud.color = level.mapvote["colors"]["selected"];
+        modeVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
+        modeVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
 
         level.mapvote["hud"]["modes"][modeIndex] = modeVotesHud;
 
         foreach (player in GetHumanPlayers())
         {
-            player.mapvote["mode"][modeIndex]["hud"] = player CreateHudText(level.mapvote["modes"]["by_index"][modeIndex], "objective", 1.5, "LEFT", "CENTER", -level.mapvote["horizontal_spacing"], hudLastPosY);
+            player.mapvote["mode"][modeIndex]["hud"] = player CreateHudText(level.mapvote["modes"]["by_index"][modeIndex], "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
 
             SetElementUnselected(player.mapvote["mode"][modeIndex]["hud"]);
         }
@@ -262,24 +269,24 @@ CreateVoteMenu()
 
         buttonsHelpMessage = "";
 
-        if (level.mapvote["colors"]["help_accent_mode"] == "standard")
+        if (GetDvar("mapvote_colors_help_accent_mode") == "standard")
         {
-            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go down - Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go up - Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] " + level.mapvote["colors"]["help_text"] + "to select - Press " + level.mapvote["colors"]["help_accent"] + "[{+activate}] " + level.mapvote["colors"]["help_text"] + "to undo";
+            buttonsHelpMessage = GetChatColor(GetDvar("mapvote_colors_help_text")) + "Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+attack}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to go down - Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+speed_throw}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to go up - Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+gostand}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to select - Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+activate}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to undo";
         }
-        else if(level.mapvote["colors"]["help_accent_mode"] == "max")
+        else if(GetDvar("mapvote_colors_help_accent_mode") == "max")
         {
-            buttonsHelpMessage = level.mapvote["colors"]["help_text"] + "Press " + level.mapvote["colors"]["help_accent"] + "[{+attack}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "down " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+speed_throw}] " + level.mapvote["colors"]["help_text"] + "to go " + level.mapvote["colors"]["help_accent"] + "up " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+gostand}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "select " + level.mapvote["colors"]["help_text"] + "- Press " + level.mapvote["colors"]["help_accent"] + "[{+activate}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "undo";
+            buttonsHelpMessage = GetChatColor(GetDvar("mapvote_colors_help_text")) + "Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+attack}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to go " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "down " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "- Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+speed_throw}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to go " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "up " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "- Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+gostand}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "select " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "- Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+activate}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "undo";
         }
 
         if (GetDvarInt("mapvote_debug"))
         {
-            if (level.mapvote["colors"]["help_accent_mode"] == "standard")
+            if (GetDvar("mapvote_colors_help_accent_mode") == "standard")
             {
-                buttonsHelpMessage = buttonsHelpMessage + " - Press " + level.mapvote["colors"]["help_accent"] + "[{+melee}] " + level.mapvote["colors"]["help_text"] + "to debug";
+                buttonsHelpMessage = buttonsHelpMessage + " - Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+melee}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to debug";
             }
-            else if(level.mapvote["colors"]["help_accent_mode"] == "max")
+            else if(GetDvar("mapvote_colors_help_accent_mode") == "max")
             {
-                buttonsHelpMessage = buttonsHelpMessage + level.mapvote["colors"]["help_text"] + " - Press " + level.mapvote["colors"]["help_accent"] + "[{+melee}] " + level.mapvote["colors"]["help_text"] + "to " + level.mapvote["colors"]["help_accent"] + "debug";
+                buttonsHelpMessage = buttonsHelpMessage + GetChatColor(GetDvar("mapvote_colors_help_text")) + " - Press " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "[{+melee}] " + GetChatColor(GetDvar("mapvote_colors_help_text")) + "to " + GetChatColor(GetDvar("mapvote_colors_help_accent")) + "debug";
             }
         }
 
@@ -292,24 +299,27 @@ CreateVoteTimer()
 	soundFX = spawn("script_origin", (0,0,0));
 	soundFX hide();
 	
-	timerhud = CreateTimer(level.mapvote["vote_time"], &"Vote ends in: ", "objective", 1.5, "CENTER", "CENTER", 0, -210);		
-    timerhud.color = level.mapvote["colors"]["timer"];
-	for (i = level.mapvote["vote_time"]; i > 0; i--)
+	timerhud = CreateTimer(GetDvarInt("mapvote_vote_time"), &"Vote ends in: ", "objective", 1.5, "CENTER", "CENTER", 0, -210);		
+    timerhud.color = GetGscColor(GetDvar("mapvote_colors_timer"));
+	for (i = GetDvarInt("mapvote_vote_time"); i > 0; i--)
 	{	
 		if(i <= 5) 
 		{
-			timerhud.color = level.mapvote["colors"]["timer_low"];
-			soundFX playSound( "mpl_ui_timer_countdown" );
+			timerhud.color = GetGscColor(GetDvar("mapvote_colors_timer_low"));
+
+            if (GetDvarInt("mapvote_sounds_timer_enabled"))
+            {
+                soundFX playSound( "mpl_ui_timer_countdown" );
+            }
 		}
 		wait(1);
 	}	
 	level notify("mapvote_vote_end");
 }
 
-ListenForStartVote()
+StartVote()
 {
     level endon("end_game");
-    level waittill("mapvote_vote_start");
 
     for (i = 0; i < level.mapvote["maps"]["by_index"].size; i++)
     {
@@ -327,7 +337,7 @@ ListenForStartVote()
     foreach (player in GetHumanPlayers())
     {
         player FreezeControlsAllowLook(1);
-        player SetBlur(level.mapvote["blur_level"], level.mapvote["blur_fade_in_time"]);
+        player SetBlur(GetDvarInt("mapvote_blur_level"), GetDvarInt("mapvote_blur_fade_in_time"));
 
         player thread ListenForVoteInputs();
     }
@@ -535,12 +545,12 @@ CancelSelection(type)
 
 SetElementSelected(element)
 {
-    element.color = level.mapvote["colors"]["selected"];
+    element.color = GetGscColor(GetDvar("mapvote_colors_selected"));
 }
 
 SetElementUnselected(element)
 {
-    element.color = level.mapvote["colors"]["unselected"];
+    element.color = GetGscColor(GetDvar("mapvote_colors_unselected"));
 }
 
 CreateHudText(text, font, fontScale, relativeToX, relativeToY, relativeX, relativeY, isServer, value)

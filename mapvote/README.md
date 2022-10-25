@@ -58,10 +58,13 @@ Here are the dvars you can configure:
 | mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | "white" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
 | mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | "blue" | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
 | mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | "standard" | standard or max |
+| mapvote_sounds_menu_enabled | Toggle whether the mapvote menu sounds are enabled or not. 0 is off and 1 is on | 1 | 0 or 1 |
+| mapvote_sounds_timer_enabled | Toggle whether the timer will start making a beeping sound every second when there's 5 or less seconds remaining to vote or not. 0 is off and 1 is on | 1 | 0 or 1 |
 | mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 |
 | mapvote_blur_level | The amount of blur to put at the end of the killcam. The max recommended value is 5. 0 disables it | 2.5 | Any number |
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to your map and modes length so that it doesn't overlap with the vote counts | 75 | Any plain number |
+| mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu after the killcam ends (in seconds) | 1 | 0.05 or above |
 
 ### Configuration
 
@@ -79,10 +82,13 @@ set mapvote_colors_timer_low "red"
 set mapvote_colors_help_text "white"
 set mapvote_colors_help_accent "blue"
 set mapvote_colors_help_accent_mode "standard"
+set mapvote_sounds_menu_enabled 1
+set mapvote_sounds_timer_enabled 1
 set mapvote_vote_time 30
 set mapvote_blur_level 2.5
 set mapvote_blur_fade_in_time 2
 set mapvote_horizontal_spacing 75
+set mapvote_display_wait_time 1
 ```
 
 Here are some pre-set values if you want to quickly copy/paste something
@@ -100,9 +106,12 @@ Here are some pre-set values if you want to quickly copy/paste something
 
 ### Notes
 
-- If right click is set to toggle ads then pressing right click will make the player go up by one every 0.35s. If I didn't change it to be that way players with toggle ads would have to press right click twice to go up by one all the time. Now instead they simply right click once to start going up and right click again to stop.
+- If right click is set to toggle ads then pressing right click will make the player go up by one every 0.35s.  
+If I didn't change it to be that way players with toggle ads would have to press right click twice to go up by one all the time.  
+Now instead they simply right click once to start going up and right click again to stop.
 - When two maps/modes have the same votes, the lowest one in the list will win. In the future it would be nice to randomize between both
-- Ending the game with ESC doesn't work when in debug mode. Use `map_restart` in the console when your script is compiled. And if you want to leave use `disconnect` in the console until this is fixed  
+- Ending the game with ESC doesn't work when in debug mode.  
+Use `map_restart` in the console when your script is compiled. And if you want to leave use `disconnect` in the console until this is fixed  
 - When there's only one map/mode the right map/mode will be chosen but adding an option to hide single vote elements would be nice
 
 ## mapvote_mp_extend.gsc
