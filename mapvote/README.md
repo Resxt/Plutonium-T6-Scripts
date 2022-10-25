@@ -64,7 +64,7 @@ Here are the dvars you can configure:
 | mapvote_blur_level | The amount of blur to put at the end of the killcam. The max recommended value is 5. 0 disables it | 2.5 | Any number |
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to your map and modes length so that it doesn't overlap with the vote counts | 75 | Any plain number |
-| mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu after the killcam ends (in seconds) | 1 | 0.05 or above |
+| mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu (in seconds) | 1 | 0.05 or above |
 
 ### Configuration
 
