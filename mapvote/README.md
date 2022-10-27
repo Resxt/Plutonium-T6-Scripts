@@ -10,7 +10,7 @@ I also re-used some code from [DoktorSAS T6 mapvote](https://github.com/DoktorSA
 Huge thanks to both of them.
 
 ![mapvote1](images/mapvote1.png)
-*Multiplayer mode. Mouse and keyboard input. Changed settings: limits modes: 3, horizontal spacing: 100,*
+*Multiplayer mode. Mouse and keyboard input. Changed settings: limits modes: 3, horizontal spacing: 100*
 
 ![mapvote2](images/mapvote2.png)
 *Zombies mode. Controller input. Changed settings: red colors, accent mode: max*
