@@ -45,8 +45,7 @@ InitMapvote()
     }
     else
     {
-        // Starting the mapvote normally is handled in mp\mapvote_mp_extend.gsc
-        //replaceFunc(maps\mp\gametypes\_killcam::finalkillcamwaiter, ::OnKillcamEnd);
+        // Starting the mapvote normally is handled in mp\mapvote_mp_extend.gsc and zm\mapvote_zm_extend.gsc
     }
 }
 
@@ -54,8 +53,21 @@ InitDvars()
 {
     SetDvarIfNotInitialized("mapvote_debug", false);
 
-    SetDvarIfNotInitialized("mapvote_maps", "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff");
-    SetDvarIfNotInitialized("mapvote_modes", "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth");
+    if (IsMultiplayerMode())
+    {
+        SetDvarIfNotInitialized("mapvote_maps", "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff");
+        SetDvarIfNotInitialized("mapvote_modes", "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth");
+        SetDvarIfNotInitialized("mapvote_limits_maps", 0);
+        SetDvarIfNotInitialized("mapvote_limits_modes", 0);
+        SetDvarIfNotInitialized("mapvote_sounds_menu_enabled", 1);
+        SetDvarIfNotInitialized("mapvote_sounds_timer_enabled", 1);
+    }
+    else
+    {
+        SetDvarIfNotInitialized("mapvote_maps", "Bus Depot,Bus Depot,zm_standard_transit:Town,Town,zm_standard_town:Farm,Farm,zm_standard_farm:Mob of The Dead,Mob of The Dead,zm_classic_prison:Nuketown,Nuketown,zm_standard_nuked:Origins,Origins,zm_classic_tomb:Buried,Buried,zm_classic_processing:Die Rise,Die Rise,zm_classic_rooftop");
+    }
+    
+    SetDvarIfNotInitialized("mapvote_limits_max", 12);
     SetDvarIfNotInitialized("mapvote_colors_selected", "blue");
     SetDvarIfNotInitialized("mapvote_colors_unselected", "white");
     SetDvarIfNotInitialized("mapvote_colors_timer", "blue");
@@ -63,8 +75,6 @@ InitDvars()
     SetDvarIfNotInitialized("mapvote_colors_help_text", "white");
     SetDvarIfNotInitialized("mapvote_colors_help_accent", "blue");
     SetDvarIfNotInitialized("mapvote_colors_help_accent_mode", "standard");
-    SetDvarIfNotInitialized("mapvote_sounds_menu_enabled", 1);
-    SetDvarIfNotInitialized("mapvote_sounds_timer_enabled", 1);
     SetDvarIfNotInitialized("mapvote_vote_time", 30);
     SetDvarIfNotInitialized("mapvote_blur_level", 2.5);
     SetDvarIfNotInitialized("mapvote_blur_fade_in_time", 2);
@@ -74,8 +84,51 @@ InitDvars()
 
 InitVariables()
 {
+    mapsArray = StrTok(GetDvar("mapvote_maps"), ":");
+    voteLimits = [];
+
+    if (IsMultiplayerMode())
+    {
+        modesArray = StrTok(GetDvar("mapvote_modes"), ":");
+
+        if (GetDvarInt("mapvote_limits_maps") == 0 && GetDvarInt("mapvote_limits_modes") == 0)
+        {
+            voteLimits = GetVoteLimits(mapsArray.size, modesArray.size);
+        }
+        else if (GetDvarInt("mapvote_limits_maps") > 0 && GetDvarInt("mapvote_limits_modes") == 0)
+        {
+            voteLimits = GetVoteLimits(GetDvarInt("mapvote_limits_maps"), modesArray.size);
+        }
+        else if (GetDvarInt("mapvote_limits_maps") == 0 && GetDvarInt("mapvote_limits_modes") > 0)
+        {
+            voteLimits = GetVoteLimits(mapsArray.size, GetDvarInt("mapvote_limits_modes"));
+        }
+        else
+        {
+            voteLimits = GetVoteLimits(GetDvarInt("mapvote_limits_maps"), GetDvarInt("mapvote_limits_modes"));
+        }
+
+        level.mapvote["limit"]["maps"] = voteLimits["maps"];
+        level.mapvote["limit"]["modes"] = voteLimits["modes"];
+    }
+    else
+    {
+        if (GetDvarInt("mapvote_limits_maps") == 0)
+        {
+            level.mapvote["limit"]["maps"] = GetVoteLimits(mapsArray.size);
+        }
+        else
+        {
+            level.mapvote["limit"]["maps"] = GetVoteLimits(GetDvarInt("mapvote_limits_maps"));
+        }
+    }
+
     SetMapvoteData("map");
-    SetMapvoteData("mode");
+    
+    if (IsMultiplayerMode())
+    {
+        SetMapvoteData("mode");
+    }
 
     level.mapvote["vote"]["maps"] = [];
     level.mapvote["vote"]["modes"] = [];
@@ -90,7 +143,7 @@ InitVariables()
 /*
 This is used instead of notifyonplayercommand("mapvote_up", "speed_throw") 
 to fix an issue where players using toggle ads would have to press right click twice for it to register one right click.
-With this instead it keeps scrolling every 0.35s until they right click again which is a better user experience
+With this instead it keeps scrolling every 0.25s until they right click again which is a better user experience
 */
 ListenForRightClick()
 {
@@ -101,7 +154,7 @@ ListenForRightClick()
         if (self AdsButtonPressed())
         {
             self notify("mapvote_up");
-            wait 0.35;
+            wait 0.25;
         }
 
         wait 0.05;
@@ -131,6 +184,10 @@ ListenForVoteInputs()
         section = self.mapvote["vote_section"];
 
         if (section == "end" && input != "mapvote_unselect" && input != "mapvote_debug")
+        {
+            continue; // stop/skip execution
+        }
+        else if (section == "mode" && level.mapvote["modes"]["by_index"].size <= 1 && input != "mapvote_unselect" && input != "mapvote_debug")
         {
             continue; // stop/skip execution
         }
@@ -192,16 +249,30 @@ ListenForVoteInputs()
                 }
                 else
                 {
-                    Print(player.name + " voted for map [" + player.mapvote["map"]["selected_index"] +"] " + level.mapvote["maps"]["by_index"][player.mapvote["map"]["selected_index"]]);
+                    mapName = "";
+
+                    if (IsMultiplayerMode())
+                    {
+                        mapName = level.mapvote["maps"]["by_index"][player.mapvote["map"]["selected_index"]];
+                    }
+                    else
+                    {
+                        mapName = level.mapvote["maps"]["by_index"][player.mapvote["map"]["selected_index"]][0];
+                    }
+
+                    Print(player.name + " voted for map [" + player.mapvote["map"]["selected_index"] +"] " + mapName);
                 }
 
-                if (player.mapvote["mode"]["selected_index"] == -1)
+                if (IsMultiplayerMode())
                 {
-                    Print(player.name + " did not vote for any mode");
-                }
-                else
-                {
-                    Print(player.name + " voted for mode [" + player.mapvote["mode"]["selected_index"] + "] " + level.mapvote["modes"]["by_index"][player.mapvote["mode"]["selected_index"]]);
+                    if (player.mapvote["mode"]["selected_index"] == -1)
+                    {
+                        Print(player.name + " did not vote for any mode");
+                    }
+                    else
+                    {
+                        Print(player.name + " voted for mode [" + player.mapvote["mode"]["selected_index"] + "] " + level.mapvote["modes"]["by_index"][player.mapvote["mode"]["selected_index"]]);
+                    }
                 }
             }
         }
@@ -217,7 +288,23 @@ ListenForVoteInputs()
 CreateVoteMenu()
 {
     spacing = 20;
-    hudLastPosY = -(((level.mapvote["maps"]["by_index"].size + level.mapvote["modes"]["by_index"].size + 1) * spacing) / 2);
+    hudLastPosY = 0;
+    
+    if (IsMultiplayerMode())
+    {
+        sectionsSeparation = 0;
+
+        if (level.mapvote["modes"]["by_index"].size > 1)
+        {
+            sectionsSeparation = 1;
+        }
+
+        hudLastPosY = -((((level.mapvote["maps"]["by_index"].size + level.mapvote["modes"]["by_index"].size + sectionsSeparation) * spacing) / 2) - (spacing / 2));
+    }
+    else
+    {
+        hudLastPosY = -(((level.mapvote["maps"]["by_index"].size * spacing) / 2) - (spacing / 2));
+    }
 
     for (mapIndex = 0; mapIndex < level.mapvote["maps"]["by_index"].size; mapIndex++)
     {
@@ -228,7 +315,18 @@ CreateVoteMenu()
 
         foreach (player in GetHumanPlayers())
         {
-            player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(level.mapvote["maps"]["by_index"][mapIndex], "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
+            mapName = "";
+
+            if (IsMultiplayerMode())
+            {
+                mapName = level.mapvote["maps"]["by_index"][mapIndex];
+            }
+            else
+            {
+                mapName = level.mapvote["maps"]["by_index"][mapIndex][0];
+            }
+
+            player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(mapName, "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
 
             if (mapIndex == 0)
             {
@@ -243,23 +341,26 @@ CreateVoteMenu()
         hudLastPosY += spacing;
     }
 
-    hudLastPosY += spacing; // Space between maps and modes sections
-
-    for (modeIndex = 0; modeIndex < level.mapvote["modes"]["by_index"].size; modeIndex++)
+    if (IsMultiplayerMode() && level.mapvote["modes"]["by_index"].size > 1)
     {
-        modeVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
-        modeVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
+        hudLastPosY += spacing; // Space between maps and modes sections
 
-        level.mapvote["hud"]["modes"][modeIndex] = modeVotesHud;
-
-        foreach (player in GetHumanPlayers())
+        for (modeIndex = 0; modeIndex < level.mapvote["modes"]["by_index"].size; modeIndex++)
         {
-            player.mapvote["mode"][modeIndex]["hud"] = player CreateHudText(level.mapvote["modes"]["by_index"][modeIndex], "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
+            modeVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
+            modeVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
 
-            SetElementUnselected(player.mapvote["mode"][modeIndex]["hud"]);
+            level.mapvote["hud"]["modes"][modeIndex] = modeVotesHud;
+
+            foreach (player in GetHumanPlayers())
+            {
+                player.mapvote["mode"][modeIndex]["hud"] = player CreateHudText(level.mapvote["modes"]["by_index"][modeIndex], "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
+
+                SetElementUnselected(player.mapvote["mode"][modeIndex]["hud"]);
+            }
+
+            hudLastPosY += spacing;
         }
-
-        hudLastPosY += spacing;
     }
 
     foreach(player in GetHumanPlayers())
@@ -326,9 +427,12 @@ StartVote()
         level.mapvote["vote"]["maps"][i] = 0;
     }
 
-    for (i = 0; i < level.mapvote["modes"]["by_index"].size; i++)
+    if (IsMultiplayerMode())
     {
-        level.mapvote["vote"]["modes"][i] = 0;
+        for (i = 0; i < level.mapvote["modes"]["by_index"].size; i++)
+        {
+            level.mapvote["vote"]["modes"][i] = 0;
+        }
     }
 
     level thread CreateVoteMenu();
@@ -405,10 +509,22 @@ ListenForEndVote()
         }
     }
 
-    modeName = level.mapvote["modes"]["by_index"][mostVotedModeIndex];
-    modeCfg = level.mapvote["modes"]["by_name"][level.mapvote["modes"]["by_index"][mostVotedModeIndex]];
-    mapName = GetMapCodeName(level.mapvote["maps"]["by_index"][mostVotedMapIndex]);
-    
+    modeName = "";
+    modeCfg = "";
+    mapName = "";
+
+    if (IsMultiplayerMode())
+    {
+        modeName = level.mapvote["modes"]["by_index"][mostVotedModeIndex];
+        modeCfg = level.mapvote["modes"]["by_name"][level.mapvote["modes"]["by_index"][mostVotedModeIndex]];
+        mapName = GetMapCodeName(level.mapvote["maps"]["by_index"][mostVotedMapIndex]);
+    }
+    else
+    {
+        modeCfg = level.mapvote["maps"]["by_index"][mostVotedMapIndex][2];
+        mapName = GetMapCodeName(level.mapvote["maps"]["by_index"][mostVotedMapIndex][1]);
+    }
+
     if (GetDvarInt("mapvote_debug"))
     {
         Print("[MAPVOTE] mapName: " + mapName);
@@ -417,40 +533,42 @@ ListenForEndVote()
         Print("[MAPVOTE] Rotating to " + mapName + " | " + modeName + " (" + modeCfg + ".cfg)");
     }
 
-    setdvar("sv_maprotationcurrent", "exec " + modeCfg + ".cfg map " + mapName);
-	setdvar("sv_maprotation", "exec " + modeCfg + ".cfg map " + mapName);
+    SetDvar("sv_maprotationcurrent", "exec " + modeCfg + ".cfg map " + mapName);
+    SetDvar("sv_maprotation", "exec " + modeCfg + ".cfg map " + mapName);
 }
 
 SetMapvoteData(type)
 {
-    limit = 0;
+    limit = level.mapvote["limit"][type + "s"];
 
     availableElements = StrTok(GetDvar("mapvote_" + type + "s"), ":");
 
+    if (availableElements.size < limit)
+    {
+        limit = availableElements.size;
+    }
+
     if (type == "map")
     {
-        if (availableElements.size < 6)
+        if (IsMultiplayerMode())
         {
-            limit = availableElements.size;
+            level.mapvote["maps"]["by_index"] = GetRandomUniqueElementsInArray(availableElements, limit);
         }
         else
         {
-            limit = 6;
-        }
+            zombiesArrays = GetRandomUniqueElementsInArray(availableElements, limit);
 
-        level.mapvote["maps"]["by_index"] = GetRandomUniqueElementsInArray(availableElements, limit);
+            level.mapvote["maps"]["by_index"] = [];
+            
+            foreach (element in zombiesArrays)
+            {
+                splittedElement = StrTok(element, ",");
+                level.mapvote["maps"]["by_index"] = AddElementToArray(level.mapvote["maps"]["by_index"], array(splittedElement[0], splittedElement[1], splittedElement[2]));
+            }
+        }
     }
     else if (type == "mode")
     {
-        if (availableElements.size < 4)
-        {
-            limit = availableElements.size;
-        }
-        else
-        {
-            limit = 4;
-        }
-
         finalElements = [];
 
         foreach (mode in GetRandomUniqueElementsInArray(availableElements, limit))
@@ -463,6 +581,68 @@ SetMapvoteData(type)
 
         level.mapvote["modes"]["by_index"] = finalElements;
     }
+}
+
+/*
+Gets the amount of maps and modes to display on screen
+This is used to get default values if the limits dvars are not set
+It will dynamically adjust the amount of maps and modes to show
+*/
+GetVoteLimits(mapsAmount, modesAmount)
+{
+    maxLimit = GetDvarInt("mapvote_limits_max");
+    limits = [];
+
+    if (!IsDefined(modesAmount))
+    {
+        if (mapsAmount <= maxLimit)
+        {
+            return mapsAmount;
+        }
+        else
+        {
+            return maxLimit;
+        }
+    }
+
+    if ((mapsAmount + modesAmount) <= maxLimit)
+    {
+        limits["maps"] = mapsAmount;
+        limits["modes"] = modesAmount;
+    }
+    else
+    {
+        if (mapsAmount >= (maxLimit / 2) && modesAmount >= (maxLimit))
+        {
+            limits["maps"] = (maxLimit / 2);
+            limits["modes"] = (maxLimit / 2);
+        }
+        else
+        {
+            if (mapsAmount > (maxLimit / 2))
+            {
+                finalMapsAmount = 0;
+
+                if (modesAmount <= 1)
+                {
+                    limits["maps"] = maxLimit;
+                }
+                else
+                {
+                    limits["maps"] = (maxLimit - modesAmount);
+                }
+                
+                limits["modes"] = modesAmount;
+            }
+            else if (modesAmount > (maxLimit / 2))
+            {
+                limits["maps"] = mapsAmount;
+                limits["modes"] = (maxLimit - mapsAmount);
+            }
+        }
+    }
+    
+    return limits;
 }
 
 
@@ -619,6 +799,11 @@ IsBot()
     return IsDefined(self.pers["isBot"]) && self.pers["isBot"];
 }
 
+IsMultiplayerMode()
+{
+    return !IsDefined(level.zombiemode) || !level.zombiemode;
+}
+
 GetHumanPlayers()
 {
     humanPlayers = [];
@@ -627,7 +812,7 @@ GetHumanPlayers()
     {
         if (!player IsBot())
         {
-            humanPlayers[humanPlayers.size] = player;
+            humanPlayers = AddElementToArray(humanPlayers, player);
         }
     }
 
@@ -689,100 +874,134 @@ AddElementToArray(array, element)
 
 GetMapCodeName(mapName)
 {
-    switch(mapName)
+    formattedMapName = ToUpper(mapName);
+
+    if (IsMultiplayerMode())
     {
-        case "Nuketown":
-        return "mp_nuketown_2020";
+        switch(formattedMapName)
+        {
+            case "NUKETOWN":
+            return "mp_nuketown_2020";
 
-        case "Hijacked":
-        return "mp_hijacked";
+            case "HIJACKED":
+            return "mp_hijacked";
 
-        case "Meltdown":
-        return "mp_meltdown";
+            case "MELTDOWN":
+            return "mp_meltdown";
 
-        case "Express":
-        return "mp_express";
+            case "EXPRESS":
+            return "mp_express";
 
-        case "Carrier":
-        return "mp_carrier";
+            case "CARRIER":
+            return "mp_carrier";
 
-        case "Overflow":
-        return "mp_overflow";
+            case "OVERFLOW":
+            return "mp_overflow";
 
-        case "Slums":
-        return "mp_slums";
+            case "SLUMS":
+            return "mp_slums";
 
-        case "Aftermath":
-        return "mp_la";
+            case "AFTERMATH":
+            return "mp_la";
 
-        case "Cargo":
-        return "mp_dockside";
+            case "CARGO":
+            return "mp_dockside";
 
-        case "Turbine":
-        return "mp_turbine";
+            case "TURBINE":
+            return "mp_turbine";
 
-        case "Drone":
-        return "mp_drone";
+            case "DRONE":
+            return "mp_drone";
 
-        case "Raid":
-        return "mp_raid";
+            case "RAID":
+            return "mp_raid";
 
-        case "Standoff":
-        return "mp_village";
+            case "STANDOFF":
+            return "mp_village";
 
-        case "Plaza":
-        return "mp_nightclub";
+            case "PLAZA":
+            return "mp_nightclub";
 
-        case "Yemen":
-        return "mp_socotra";
+            case "YEMEN":
+            return "mp_socotra";
 
-        case "Uplink":
-        return "mp_uplink";
+            case "UPLINK":
+            return "mp_uplink";
 
-        case "Detour":
-        return "mp_bridge";
+            case "DETOUR":
+            return "mp_bridge";
 
-        case "Cove":
-        return "mp_castaway";
+            case "COVE":
+            return "mp_castaway";
 
-        case "Rush":
-        return "mp_paintball";
+            case "RUSH":
+            return "mp_paintball";
 
-        case "Studio":
-        return "mp_studio";
+            case "STUDIO":
+            return "mp_studio";
 
-        case "Magma":
-        return "mp_magma";
+            case "MAGMA":
+            return "mp_magma";
 
-        case "Vertigo":
-        return "mp_vertigo";
+            case "VERTIGO":
+            return "mp_vertigo";
 
-        case "Encore":
-        return "mp_concert";
+            case "ENCORE":
+            return "mp_concert";
 
-        case "Downhill":
-        return "mp_downhill";
+            case "DOWNHILL":
+            return "mp_downhill";
 
-        case "Grind":
-        return "mp_skate";
+            case "GRIND":
+            return "mp_skate";
 
-        case "Hydro":
-        return "mp_hydro";
+            case "HYDRO":
+            return "mp_hydro";
 
-        case "Mirage":
-        return "mp_mirage";
+            case "MIRAGE":
+            return "mp_mirage";
 
-        case "Frost":
-        return "mp_frostbite";
+            case "FROST":
+            return "mp_frostbite";
 
-        case "Takeoff":
-        return "mp_takeoff";
+            case "TAKEOFF":
+            return "mp_takeoff";
 
-        case "Pod":
-        return "mp_pod";
+            case "POD":
+            return "mp_pod";
 
-        case "Dig":
-        return "mp_dig"; 
+            case "DIG":
+            return "mp_dig"; 
+        }
+    }
+    else
+    {
+        switch(formattedMapName)
+        {
+            case "BURIED":
+            return "zm_buried";
+
+            case "DIE RISE":
+            return "zm_highrise";
+
+            case "MOB OF THE DEAD":
+            return "zm_prison";
+
+            case "NUKETOWN":
+            return "zm_nuked";
+
+            case "ORIGINS":
+            return "zm_tomb";
+
+            case "TRANZIT":
+            case "FARM":
+            case "TOWN":
+            case "BUS DEPOT":
+            return "zm_transit";
+
+            case "DINER":
+            return "zm_transit_dr";
+        }
     }
 }
 
