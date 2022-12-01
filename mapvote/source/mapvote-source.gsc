@@ -281,6 +281,22 @@ ListenForVoteInputs()
     }
 }
 
+OnPlayerDisconnect()
+{
+    self waittill("disconnect");
+
+    if (self.mapvote["map"]["selected_index"] != -1)
+    {
+        level.mapvote["vote"]["maps"][self.mapvote["map"]["selected_index"]] = (level.mapvote["vote"]["maps"][self.mapvote["map"]["selected_index"]] - 1);
+        level.mapvote["hud"]["maps"][self.mapvote["map"]["selected_index"]] SetValue(level.mapvote["vote"]["maps"][self.mapvote["map"]["selected_index"]]);
+    }
+
+    if (self.mapvote["mode"]["selected_index"] != -1)
+    {
+        level.mapvote["vote"]["modes"][self.mapvote["mode"]["selected_index"]] = (level.mapvote["vote"]["modes"][self.mapvote["mode"]["selected_index"]] - 1);
+        level.mapvote["hud"]["modes"][self.mapvote["mode"]["selected_index"]] SetValue(level.mapvote["vote"]["modes"][self.mapvote["mode"]["selected_index"]]);
+    }
+}
 
 
 /* Vote section */
@@ -444,6 +460,7 @@ StartVote()
         player SetBlur(GetDvarInt("mapvote_blur_level"), GetDvarInt("mapvote_blur_fade_in_time"));
 
         player thread ListenForVoteInputs();
+        player thread OnPlayerDisconnect();
     }
 }
 
