@@ -33,6 +33,7 @@ Since it's disabled by default it won't affect your servers or run unless you en
 - It supports custom CFG
 - It supports custom gamemode names in multiplayer and custom map names in zombies
 - It rotates a random map from the list when there are no votes for maps. Same applies for modes in multiplayer too
+- You can choose to rotate a random map and mode from a list you define when the human players count is between a min and max values you define (disabled by default)
 - Controllers are fully supported and work out of the box
 - It has a good level of customization
 - It has a debug mode to quickly preview the menu and print some values in the console
@@ -140,6 +141,10 @@ set mapvote_blur_level 2.5
 set mapvote_blur_fade_in_time 2
 set mapvote_horizontal_spacing 75
 set mapvote_display_wait_time 1
+set mapvote_default_rotation_maps "Hijacked:Raid:Nuketown"
+set mapvote_default_rotation_modes "tdm"
+set mapvote_default_rotation_min_players 0
+set mapvote_default_rotation_max_players 0
 ```
 
 Here are some pre-set values if you want to quickly copy/paste something
@@ -176,6 +181,9 @@ set mapvote_blur_level 2.5
 set mapvote_blur_fade_in_time 2
 set mapvote_horizontal_spacing 75
 set mapvote_display_wait_time 1
+set mapvote_default_rotation_maps "Town,zm_standard_town:Farm,zm_standard_farm"
+set mapvote_default_rotation_min_players 0
+set mapvote_default_rotation_max_players 0
 ```
 
 Here are some pre-set values if you want to quickly copy/paste something
