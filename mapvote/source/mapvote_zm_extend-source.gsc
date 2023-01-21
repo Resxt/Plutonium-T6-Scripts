@@ -35,8 +35,7 @@ OnIntermissionStart()
 
 	wait GetDvarInt("mapvote_display_wait_time");
 	
-	[[level.mapvote_start_function]]();
-	[[level.mapvote_end_function]]();
+	[[level.mapvote_rotate_function]]();
 
 	for (i = 0; i < level.players.size; i++)
 	{

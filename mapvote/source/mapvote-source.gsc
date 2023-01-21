@@ -20,8 +20,7 @@ Init()
 {
     if (GetDvarInt("mapvote_enable"))
     {
-        level.mapvote_start_function = ::StartVote;
-        level.mapvote_end_function = ::ListenForEndVote;
+        level.mapvote_rotate_function = ::DoRotation;
 
         InitMapvote();
     }
@@ -61,10 +60,13 @@ InitDvars()
         SetDvarIfNotInitialized("mapvote_limits_modes", 0);
         SetDvarIfNotInitialized("mapvote_sounds_menu_enabled", 1);
         SetDvarIfNotInitialized("mapvote_sounds_timer_enabled", 1);
+        SetDvarIfNotInitialized("mapvote_default_rotation_maps", "Hijacked:Raid:Nuketown");
+        SetDvarIfNotInitialized("mapvote_default_rotation_modes", "tdm");
     }
     else
     {
         SetDvarIfNotInitialized("mapvote_maps", "Bus Depot,Bus Depot,zm_standard_transit:Town,Town,zm_standard_town:Farm,Farm,zm_standard_farm:Mob of The Dead,Mob of The Dead,zm_classic_prison:Nuketown,Nuketown,zm_standard_nuked:Origins,Origins,zm_classic_tomb:Buried,Buried,zm_classic_processing:Die Rise,Die Rise,zm_classic_rooftop");
+        SetDvarIfNotInitialized("mapvote_default_rotation_maps", "Town,zm_standard_town:Farm,zm_standard_farm");
     }
     
     SetDvarIfNotInitialized("mapvote_limits_max", 12);
@@ -80,6 +82,8 @@ InitDvars()
     SetDvarIfNotInitialized("mapvote_blur_fade_in_time", 2);
     SetDvarIfNotInitialized("mapvote_horizontal_spacing", 75);
     SetDvarIfNotInitialized("mapvote_display_wait_time", 1);
+    SetDvarIfNotInitialized("mapvote_default_rotation_min_players", 0);
+    SetDvarIfNotInitialized("mapvote_default_rotation_max_players", 0);
 }
 
 InitVariables()
@@ -660,6 +664,54 @@ GetVoteLimits(mapsAmount, modesAmount)
     }
     
     return limits;
+}
+
+ShouldRotateDefault()
+{
+    humanPlayersCount = GetHumanPlayers().size;
+
+    if (GetDvarInt("mapvote_default_rotation_max_players") > 0 && humanPlayersCount >= GetDvarInt("mapvote_default_rotation_min_players") && humanPlayersCount <= GetDvarInt("mapvote_default_rotation_max_players"))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+RotateDefault()
+{
+    mapName = "";
+    modeCfg = "";
+
+    if (IsMultiplayerMode())
+    {
+        modeCfg = GetRandomElementInArray(StrTok(GetDvar("mapvote_default_rotation_modes"), ":"));
+        mapName = GetMapCodeName(GetRandomElementInArray(StrTok(GetDvar("mapvote_default_rotation_maps"), ":")));
+    }
+    else
+    {
+        data = GetRandomElementInArray(StrTok(GetDvar("mapvote_default_rotation_maps"), ":"));
+        dataSplitted = StrTok(data, ",");
+
+        modeCfg = dataSplitted[1];
+        mapName = GetMapCodeName(dataSplitted[0]);
+    }
+
+    SetDvar("sv_maprotationcurrent", "exec " + modeCfg + ".cfg map " + mapName);
+    SetDvar("sv_maprotation", "exec " + modeCfg + ".cfg map " + mapName);
+}
+
+DoRotation()
+{
+	if (ShouldRotateDefault())
+	{
+		RotateDefault();
+	}
+	else
+	{
+        StartVote();
+        ListenForEndVote();
+	}
 }
 
 

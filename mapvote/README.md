@@ -77,6 +77,10 @@ Here are the dvars you can configure:
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to the longest map or mode name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 | mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number superior or equal to 0.05 |
+| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Hijacked:Raid:Nuketown" | Any map name. Each map is separated with a colon (:) |
+| mapvote_default_rotation_modes  | A list of the modes that are available for default rotation. It needs to be the name of a CFG file | "tdm" | Any cfg file name. Each cfg file name is separated with a colon (:) |
+| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
+| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
   
 </details>
 
@@ -101,6 +105,9 @@ Here are the dvars you can configure:
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map names on the left and the vote counts on the right. I recommend setting this value according to the longest map name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 | mapvote_display_wait_time | Once the game over screen ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number above 0.05 |
+| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Town,zm_standard_town:Farm,zm_standard_farm" | The map name followed by a comma (,) and then the CFG file name. Each block is separated with a colon (:) |
+| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
+| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
   
 </details>
 

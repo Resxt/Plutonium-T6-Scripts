@@ -14,19 +14,19 @@ OnKillcamEnd()
 	{
 	    if (isRoundBased() && !wasLastRound())
 			return false;	
-		wait GetDvarInt("mapvote_display_wait_time");
 		
-		[[level.mapvote_start_function]]();
-		[[level.mapvote_end_function]]();
+		wait GetDvarInt("mapvote_display_wait_time");
+		[[level.mapvote_rotate_function]]();
+		
         return false;
     }
 	
     level waittill("final_killcam_done");
 	if (isRoundBased() && !wasLastRound())
 		return true;
-	wait GetDvarInt("mapvote_display_wait_time");
 
-	[[level.mapvote_start_function]]();
-	[[level.mapvote_end_function]]();
+	wait GetDvarInt("mapvote_display_wait_time");
+	[[level.mapvote_rotate_function]]();
+
     return true;
 }
