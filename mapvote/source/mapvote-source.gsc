@@ -20,7 +20,7 @@ Init()
 {
     if (GetDvarInt("mapvote_enable"))
     {
-        level.mapvote_rotate_function = ::DoRotation;
+        level.mapvote_rotate_function = ::StartRotation;
 
         InitMapvote();
     }
@@ -554,8 +554,7 @@ ListenForEndVote()
         Print("[MAPVOTE] Rotating to " + mapName + " | " + modeName + " (" + modeCfg + ".cfg)");
     }
 
-    SetDvar("sv_maprotationcurrent", "exec " + modeCfg + ".cfg map " + mapName);
-    SetDvar("sv_maprotation", "exec " + modeCfg + ".cfg map " + mapName);
+    DoRotation(modeCfg, mapName);
 }
 
 SetMapvoteData(type)
@@ -697,11 +696,16 @@ RotateDefault()
         mapName = GetMapCodeName(dataSplitted[0]);
     }
 
+    DoRotation(modeCfg, mapName);
+}
+
+DoRotation(modeCfg, mapName)
+{
     SetDvar("sv_maprotationcurrent", "exec " + modeCfg + ".cfg map " + mapName);
     SetDvar("sv_maprotation", "exec " + modeCfg + ".cfg map " + mapName);
 }
 
-DoRotation()
+StartRotation()
 {
 	if (ShouldRotateDefault())
 	{
