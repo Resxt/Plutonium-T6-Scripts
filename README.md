@@ -12,36 +12,13 @@ Huge thanks to everyone who helped me learn GSC: Birchy, DoktorSAS, FutureRave a
 
 If you are unsure whether you should download a compiled or a source script, first read [What are compiled and source scripts?](#what-are-compiled-and-source-scripts)
 
-### Compiled / Ready to use script
+- [Download this repository](https://github.com/Resxt/Plutonium-T6-Scripts/archive/refs/heads/master.zip)
+- Open the downloaded ZIP file
+- Drag and drop the script(s) you want in the folder they need to be placed in.  
+If no instructions are provided for the script you want then simply follow the instructions given in [How do I use a compiled script?](#how-do-i-use-a-compiled-script)
 
-To download a compiled script, click on a `.gsc` file that **doesn't** end with `-source` and click on `Download`.
-<details>
-  <summary>Image</summary>
-  
-  ![image](https://user-images.githubusercontent.com/55228336/196939333-85cc9f1f-4446-4421-b76d-e4a4d198fdb9.png)
-  ![image](https://user-images.githubusercontent.com/55228336/196939820-e278baa1-c02d-4e27-b4da-14308c83c851.png)
-</details>  
-
-### Source script
-
-Alternatively, if you want to download the source code click on a `.gsc` file that ends with `-source` and click on `Raw`.
-
-<details>
-  <summary>Image</summary>
-  
-  ![image](https://user-images.githubusercontent.com/55228336/196944459-de91a8a5-61f3-4cdc-9682-63af0b53f1fa.png)
-  ![image](https://user-images.githubusercontent.com/55228336/196945099-98f56acb-8150-4ef1-8ba2-17d943e8dbd2.png)
-</details>
-
-Right click anywhere and click on `Save page as` (or an equivalent).
-
-Make sure to put `All` or `Any` for the file type and to add `.gsc` at the end of the file name.
-
-<details>
-  <summary>Image</summary>
-  
-  ![image](https://user-images.githubusercontent.com/55228336/196947110-4df947b8-e72e-45a6-a66d-30dcb5abb2f4.png)
-</details>
+Just keep in mind that this downloads a copy of this repository at the moment you download it.  
+If a script is updated after you downloaded this repository and you want the new version then you will need to download this repository again.
 
 ## How do I use a compiled script?
 
@@ -75,10 +52,10 @@ A source script is the script in a human readable form (a text file), this is ho
 A compiled script is simply a source script that has been compiled by a compiler to make it readable by the game.  
 At the time of writing, T6 cannot read source scripts so you have to compile them to allow the game to read them.
 
-So if you only want to use a script and you don't want to edit a script or review its code then  
-you can simply [download a compiled script](#compiled--ready-to-use-script) and [start using it](#how-do-i-use-a-compiled-script).
+So if you only want to use a script and you don't want to edit it or review its code then  
+you can simply read [How do I use a compiled script?](#how-do-i-use-a-compiled-script).
 
 All of my scripts always come as two files:
 
-- script.gsc (compiled script)
-- script-source.gsc (source script)
+- script.gsc (compiled script, ready to be used)
+- script-source.gsc (source script, made to read the code and eventually edit it, cannot be read by the game, needs to be compiled)
