@@ -70,6 +70,25 @@ set cc_permission_4 ""
 - If you prefer to display information (error messages, status change etc.) in the player's chat rather than on his screen you can do that on a dedicated server. For this you need to install [t6-gsc-utils.dll](https://github.com/fedddddd/t6-gsc-utils#installation) (dedicated server only) and change `self IPrintLnBold(message);` to `self tell(message);` in the `TellPlayer` function
 - Support for clantags was added. You can use the player names in-game or in the dvars without having to care about their clantag. The [setClantag function](https://github.com/fedddddd/t6-gsc-utils#chat) replaces the player name so additional work was required to make the script ignore the clantag
 
+## chat_command_teleport.gsc
+
+Teleports a player to the position of another player.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to teleport | :white_check_mark: |
+| 2 | The name of the player to teleport to | :white_check_mark: |
+
+| Examples |
+|---|
+| `!teleport me Eldor` |
+| `!teleport Eldor me` |
+| `!teleport Eldor Rektinator` |
+
+| Permission level |
+|---|
+| 2 |
+
 ## chat_command_unlimited_ammo.gsc
 
 Toggles unlimited ammo on the targeted player.
