@@ -68,3 +68,20 @@ set cc_permission_4 ""
 - If you use [IW4MAdmin](https://github.com/RaidMax/IW4M-Admin) make sure you have a different commands prefix to avoid conflicts. For example `!` for IW4MAdmin commands and `.` for this script. The commands prefix can be modified by changing the value of the `cc_prefix` dvar. As for [IW4MAdmin](https://github.com/RaidMax/IW4M-Admin), at the time of writing, if you want to change it you'll need to change the value of [CommandPrefix](https://github.com/RaidMax/IW4M-Admin/wiki/Configuration#advanced-configuration)
 - If you prefer to display information (error messages, status change etc.) in the player's chat rather than on his screen you can do that on a dedicated server. For this you need to install [t6-gsc-utils.dll](https://github.com/fedddddd/t6-gsc-utils#installation) (dedicated server only) and change `self IPrintLnBold(message);` to `self tell(message);` in the `TellPlayer` function
 - Support for clantags was added. You can use the player names in-game or in the dvars without having to care about their clantag. The [setClantag function](https://github.com/fedddddd/t6-gsc-utils#chat) replaces the player name so additional work was required to make the script ignore the clantag
+
+## chat_command_unlimited_ammo.gsc
+
+Toggles unlimited ammo on the targeted player.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to toggle unlimited ammo for | :white_check_mark: |
+
+| Examples |
+|---|
+| `!unlimitedammo me` |
+| `!unlimitedammo Resxt` |
+
+| Permission level |
+|---|
+| 3 |
