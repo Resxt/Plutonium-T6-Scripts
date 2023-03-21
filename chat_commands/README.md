@@ -51,6 +51,7 @@ The values you see are the default values that will be used if you don't set a d
 
 ```c
 set cc_debug 0
+set cc_prefix "!"
 set cc_permission_enabled 0
 set cc_permission_mode "name"
 set cc_permission_default 1
