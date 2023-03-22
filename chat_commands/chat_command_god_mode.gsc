@@ -74,6 +74,6 @@ DoGodMode(enabled)
     }
     else
     {
-        self disableInvulnerability();
+        self DisableInvulnerability();
     }
 }
