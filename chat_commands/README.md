@@ -70,6 +70,20 @@ set cc_permission_4 ""
 - If you prefer to display information (error messages, status change etc.) in the player's chat rather than on his screen you can do that on a dedicated server. For this you need to install [t6-gsc-utils.dll](https://github.com/fedddddd/t6-gsc-utils#installation) (dedicated server only) and change `self IPrintLnBold(message);` to `self tell(message);` in the `TellPlayer` function
 - Support for clantags was added. You can use the player names in-game or in the dvars without having to care about their clantag. The [setClantag function](https://github.com/fedddddd/t6-gsc-utils#chat) replaces the player name so additional work was required to make the script ignore the clantag
 
+## chat_command_dvars.gsc
+
+3 related commands in one file:  
+
+- Print server dvar
+- Change server dvar
+- Change client dvar
+
+| Name | Description | Arguments expected | Example | Permission level |
+|---|---|---|---|---|
+| getdvar | Prints the (server) dvar value in the player's chat | (1) the dvar name | `!getdvar g_speed` | 2 |
+| setdvar | Changes a dvar on the server | (1) the dvar name (2) the new dvar value | `!setdvar jump_height 500` | 4 |
+| setclientdvar | Changes a dvar on the targeted player | (1) the name of the player (2) the dvar name (3) the new dvar value | `!setclientdvar Resxt cg_thirdperson 1` | 4 |
+
 ## chat_command_god_mode.gsc
 
 Toggles whether the targeted player is in god mode (invincible) or not.  
