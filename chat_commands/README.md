@@ -87,6 +87,18 @@ Toggles whether the targeted player is in god mode (invincible) or not.
 |---|
 | 3 |
 
+## chat_command_permissions.gsc
+
+2 related commands in one file:  
+
+- Get permission level
+- Set permission level
+
+| Name | Description | Arguments expected | Example | Permission level |
+|---|---|---|---|---|
+| getpermission | Prints the targeted player's current permission level in the player's chat | (1) the name of the targeted player | `!getpermission me` | 2 |
+| setpermission | Changes the targeted player's permission level (for the current game only) | (1) the name of the targeted player (2) the permission level to grant | `!setpermission Resxt 4` | 4 |
+
 ## chat_command_teleport.gsc
 
 Teleports a player to the position of another player.
