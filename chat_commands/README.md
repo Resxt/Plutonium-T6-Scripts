@@ -119,6 +119,25 @@ Toggles whether the targeted player is in god mode (invincible) or not.
 |---|
 | 3 |
 
+## chat_command_invisible.gsc
+
+Toggles invisibility on the targeted player.  
+Note that this does not make the player invisible to bots in multiplayer, in the sense that even if they can't see the player, they will still know his position and shoot him.  
+However, in addition to being invisible, you will also be ignored by zombies in the zombies mode.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to make invisible/visible | :white_check_mark: |
+
+| Examples |
+|---|
+| `!invisible me` |
+| `!invisible Resxt` |
+
+| Permission level |
+|---|
+| 3 |
+
 ## chat_command_permissions.gsc
 
 2 related commands in one file:  
