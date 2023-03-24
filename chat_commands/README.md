@@ -132,6 +132,18 @@ Teleports a player to the position of another player.
 |---|
 | 2 |
 
+## chat_command_text_help.gsc
+
+Prints how to use the `commands` and the `help command` commands in the player's chat.
+
+| Example |
+|---|
+| `!help` |
+
+| Permission level |
+|---|
+| 1 |
+
 ## chat_command_unfair_aimbot.gsc
 
 Toggles unfair aimbot on the targeted player.
