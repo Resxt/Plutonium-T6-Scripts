@@ -84,6 +84,24 @@ set cc_permission_4 ""
 | setdvar | Changes a dvar on the server | (1) the dvar name (2) the new dvar value | `!setdvar jump_height 500` | 4 |
 | setclientdvar | Changes a dvar on the targeted player | (1) the name of the player (2) the dvar name (3) the new dvar value | `!setclientdvar Resxt cg_thirdperson 1` | 4 |
 
+## chat_command_freeze.gsc
+
+Toggles whether the targeted player can move or not.  
+Note that this does not work during the prematch period.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to freeze/unfreeze | :white_check_mark: |
+
+| Examples |
+|---|
+| `!freeze me` |
+| `!freeze Resxt` |
+
+| Permission level |
+|---|
+| 3 |
+
 ## chat_command_god_mode.gsc
 
 Toggles whether the targeted player is in god mode (invincible) or not.  
