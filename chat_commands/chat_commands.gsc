@@ -536,3 +536,8 @@ PermissionIsEnabled()
 {
     return GetDvarInt("cc_permission_enabled");
 }
+
+IsMultiplayerMode()
+{
+    return !IsDefined(level.zombiemode) || !level.zombiemode;
+}
