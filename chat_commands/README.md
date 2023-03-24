@@ -132,6 +132,23 @@ Teleports a player to the position of another player.
 |---|
 | 2 |
 
+## chat_command_unfair_aimbot.gsc
+
+Toggles unfair aimbot on the targeted player.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to toggle unfair aimbot for | :white_check_mark: |
+
+| Examples |
+|---|
+| `!unfairaimbot me` |
+| `!unfairaimbot Resxt` |
+
+| Permission level |
+|---|
+| 4 |
+
 ## chat_command_unlimited_ammo.gsc
 
 Toggles unlimited ammo on the targeted player.
