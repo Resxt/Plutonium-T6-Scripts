@@ -34,7 +34,7 @@ Here are the dvars you can configure:
 |---|---|---|---|
 | cc_debug | Toggle whether the script is in debug mode or not. This is used to print players GUID in the console when they connect | 0 | 0 or 1 |
 | cc_prefix | The symbol to type before the command name in the chat. Only one character is supported. The `/` symbol won't work normally as it's reserved by the game. If you use the `/` symbol as prefix you will need to type double slash in the game | ! | Any working symbol |
-| cc_permission_enabled | Toggle whether the permission system is enabled or not. If it's disabled any player can run any available | 0 | 0 or 1 |
+| cc_permission_enabled | Toggle whether the permission system is enabled or not. If it's disabled any player can run any available command | 0 | 0 or 1 |
 | cc_permission_mode | Changes whether the permission dvars values are names or guids | name | name or guid |
 | cc_permission_default | The default permission level players who aren't found in the permission dvars will be granted | 1 | Any plain number from 0 to `cc_permission_max` |
 | cc_permission_max | The maximum/most elevated permission level | 4 | Any plain number above 0 |
