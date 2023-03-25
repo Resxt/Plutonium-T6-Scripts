@@ -270,6 +270,11 @@ ChatListener()
 
 TellPlayer(messages, waitTime, isCommand)
 {
+    if (!IsDefined(waitTime))
+    {
+        waitTime = 1;
+    }
+    
     for (i = 0; i < messages.size; i++)
     {
         message = messages[i];
@@ -285,6 +290,19 @@ TellPlayer(messages, waitTime, isCommand)
         {
             wait waitTime;
         }
+    }
+}
+
+TellAllPlayers(messages, waitTime)
+{
+    if (!IsDefined(waitTime))
+    {
+        waitTime = 1;
+    }
+
+    foreach (player in level.players)
+    {
+        player TellPlayer(messages, waitTime, false);
     }
 }
 
@@ -359,6 +377,11 @@ PlayerDoesNotExistError(playerName)
 DvarDoesNotExistError(dvarName)
 {
     return array("The dvar " + dvarName + " doesn't exist");
+}
+
+InvalidRoundError(roundNumber)
+{
+    return array(roundNumber + " is not a valid round number");
 }
 
 
