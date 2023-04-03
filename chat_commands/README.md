@@ -13,7 +13,7 @@ MP only scripts are in the [mp](mp) folder and ZM only scripts are in the [zm](z
 The core script that holds the configuration, runs all the chat logic and holds utils function that are shared between all the `chat_command` scripts.  
 
 **[IMPORTANT]** Installing it is **mandatory** to make the commands work as this is the core of this whole system and all the command scripts depend on it.  
-**[IMPORTANT]** By default this script is made to be placed in the `scripts` folder. If you place it in the `scripts\mp` or `scripts\zm` folder instead then you will need to update the include of each commaand script accordingly (first line) or you will get errors.  
+**[IMPORTANT]** By default this script is made to be placed in the `scripts` folder. If you place it in the `scripts\mp` or `scripts\zm` folder instead then you will need to update the include of each command script accordingly (first line) or you will get errors.  
 You simply have to replace `#include scripts\chat_commands` with `#include scripts\mp\chat_commands;` or `#include scripts\zm\chat_commands;` in each of your command script.
 
 Also note that this script doesn't provide any command on its own. You must install at least one command script to be able to use commands. Otherwise it will always say that you don't have any command.
