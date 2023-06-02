@@ -209,7 +209,11 @@ Until I find a way to play sounds in the intermission, if it's even possible, th
 - If some map/mode names or vote count don't display at all then you probably have other scripts that create HUD elements and there's too much elements to display so either remove your script or lower `mapvote_limits_max` so that the mapvote will have less elements to display
 - When two maps/modes have the same votes, the lowest one in the list will win. In the future it would be nice to randomize between both
 - Ending the game with ESC doesn't work when in debug mode.  
-Use `map_restart` in the console when your script is compiled. And if you want to leave use `disconnect` in the console until this is fixed  
+Use `map_restart` in the console when your script is compiled. And if you want to leave use `disconnect` in the console until this is fixed
+- [Zombies++](https://github.com/Paintball/BO2-GSC-Releases/tree/master/Zombies%20Mods/Zombies%2B%2B/v1.2/Source%20Code) will cause conflict with the ZM mapvote but you can easily make them both work without having to remove one.  
+Open the `clientids.gsc` file provided by Zombies++ and comment these lines: `368, 504, 505`.  
+The part that overrides the end game logic in Zombies++ should no longer interfere with the mapvote.  
+Both scripts should work normally after rotating to a new map / restarting the server
 
 ## mapvote_mp_extend.gsc
 
