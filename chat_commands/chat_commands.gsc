@@ -23,7 +23,7 @@ InitChatCommands()
     InitChatCommandsDvars();
 
     level.chat_commands = []; // don't touch
-    level.chat_commands["ports"] = array("4976", "4977"); // an array of the ports of all your servers you want to have the script running on. This is useful to easily pass this array as first arg of CreateCommand to have the command on all your servers
+    level.chat_commands["ports"] = array("3074", "4976", "4977"); // an array of the ports of all your servers you want to have the script running on. This is useful to easily pass this array as first arg of CreateCommand to have the command on all your servers
     level.chat_commands["no_commands_message"] = array("^1No commands found", "You either ^1didn't add any chat_command file ^7to add a new command ^1or ^7there are ^1no command configured on this port", "chat_commands.gsc is ^1just the base system. ^7It doesn't provide any command on its own", "Also ^1make sure the ports are configured properly ^7in the CreateCommand function of your command file(s)"); // the lines to print in the chat when the server doesn't have any command added
     level.chat_commands["no_commands_wait"] = 6; // time to wait between each line in <level.chat_commands["no_commands_message"]> when printing that specific message in the chat
 
@@ -384,6 +384,11 @@ InvalidRoundError(roundNumber)
     return array(roundNumber + " is not a valid round number");
 }
 
+WeaponDoesNotExistError(weaponName)
+{
+    return array("The weapon " + weaponName + " doesn't exist");
+}
+
 
 
 /* Utils section */
@@ -563,4 +568,12 @@ PermissionIsEnabled()
 IsMultiplayerMode()
 {
     return !IsDefined(level.zombiemode) || !level.zombiemode;
+}
+
+IsValidWeapon(weaponName)
+{
+    weaponIndex = 0;
+    weaponIndex = getbaseweaponitemindex(weaponName);
+
+    return weaponIndex != 0;
 }
