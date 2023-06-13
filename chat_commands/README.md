@@ -106,6 +106,32 @@ Note that this does not work during the prematch period.
 |---|
 | 3 |
 
+## chat_command_give.gsc
+
+<!-- 2 related commands in one file: -->
+
+- Give weapon (with or without attachment(s) and camo in MP)
+
+| Name | Description | Arguments expected | Example | Permission level |
+|---|---|---|---|---|
+| giveweapon | Gives the targeted player the specific weapon. Attachments and camo can be passed | (1) the name of the player (2) the weapon codename (3) optional, camo index from 0 to 45 | `!giveweapon me tar21_mp` | 2 |
+
+You can use [chat_command_info.gsc](#chat_command_infogsc) to list available weapons and their attachments.  
+Alternatively you can use [this](https://forum.plutonium.pw/topic/1909/resource-stat-modification-checks-other-structures) to get weapon/attachment names from your browser.
+
+| More examples (MP) |
+|---|
+| `!giveweapon me kard_mp` (give weapon by codename) |
+| `!giveweapon me an94` (give weapon by codename without _mp at the end) |
+| `!giveweapon me as50_mp+ir` (give weapon by codename with an attachment) |
+| `!giveweapon me ballista_mp 15` (give weapon by codename with camo index 15, in this case gold camo) |
+| `!giveweapon me dsr50_mp+silencer 16` (give weapon by codename with an attachment and camo index 16, in this case diamond camo) |
+
+| More examples (ZM) |
+|---|
+| `!giveweapon me m14_zm` (give weapon by codename) |
+| `!giveweapon me m1911_upgraded_zm` (give upgraded/PAPed weapon by codename) |
+
 ## chat_command_god_mode.gsc
 
 Toggles whether the targeted player is in god mode (invincible) or not.  
