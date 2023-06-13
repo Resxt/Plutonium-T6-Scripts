@@ -123,6 +123,28 @@ Toggles whether the targeted player is in god mode (invincible) or not.
 |---|
 | 3 |
 
+## chat_command_info.gsc
+
+2 related commands in one file:  
+
+- List available weapons
+- List available attachments (MP only)
+
+| Name | Description | Arguments expected | Example | Permission level |
+|---|---|---|---|---|
+| listweapons | Prints all the available weapons. No argument prints code names, any argument will print display/human readable names instead | (1) optional, any text | `!listweapons` | 2 |
+| listattachments | Prints all the available attachments for that weapon. No argument prints available attachments for the weapon you're holding, a valid weapon codename as argument will print this weapon's available attachments instead | (1) optional, valid weapon codename | `!listattachments dsr50_mp` | 2 |
+
+You can check [this](https://forum.plutonium.pw/topic/1909/resource-stat-modification-checks-other-structures) to get weapon/attachment names from your browser instead.
+
+| More examples |
+|---|
+| `!listweapons` |
+| `!listweapons display` |
+| `!listattachments` |
+| `!listattachments tar21_mp` |
+| `!listattachments dsr50` |
+
 ## chat_command_invisible.gsc
 
 Toggles invisibility on the targeted player.  
