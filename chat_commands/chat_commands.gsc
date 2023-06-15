@@ -23,7 +23,7 @@ InitChatCommands()
     InitChatCommandsDvars();
 
     level.chat_commands = []; // don't touch
-    level.chat_commands["ports"] = array("3074", "4976", "4977"); // an array of the ports of all your servers you want to have the script running on. This is useful to easily pass this array as first arg of CreateCommand to have the command on all your servers
+    level.chat_commands["ports"] = array("4976", "4977"); // an array of the ports of all your servers you want to have the script running on. This is useful to easily pass this array as first arg of CreateCommand to have the command on all your servers
     level.chat_commands["no_commands_message"] = array("^1No commands found", "You either ^1didn't add any chat_command file ^7to add a new command ^1or ^7there are ^1no command configured on this port", "chat_commands.gsc is ^1just the base system. ^7It doesn't provide any command on its own", "Also ^1make sure the ports are configured properly ^7in the CreateCommand function of your command file(s)"); // the lines to print in the chat when the server doesn't have any command added
     level.chat_commands["no_commands_wait"] = 6; // time to wait between each line in <level.chat_commands["no_commands_message"]> when printing that specific message in the chat
 
@@ -61,43 +61,48 @@ InitChatCommandsDvars()
 */
 CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimumPermission, commandHelp)
 {
+    currentPort = GetDvar("net_port");
+
     foreach (serverPort in serverPorts)
     {
-        level.commands[serverPort][commandName]["type"] = commandType;
-
-        if (IsDefined(commandHelp))
+        if (serverPort == currentPort)
         {
-            commandHelpMessage = commandHelp;
-            commandHelpString = commandHelp[0];
-            
-            if (commandHelpString == "default_help_one_player")
+            level.commands[serverPort][commandName]["type"] = commandType;
+
+            if (IsDefined(commandHelp))
             {
-                commandHelpMessage = array("Example: " + GetDvar("cc_prefix") + commandName + " me", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt");
+                commandHelpMessage = commandHelp;
+                commandHelpString = commandHelp[0];
+                
+                if (commandHelpString == "default_help_one_player")
+                {
+                    commandHelpMessage = array("Example: " + GetDvar("cc_prefix") + commandName + " me", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt");
+                }
+                else if (commandHelpString == "default_help_two_players")
+                {
+                    commandHelpMessage = array("Example: " + GetDvar("cc_prefix") + commandName + " me Resxt", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt me", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt Eldor");
+                }
+
+                level.commands[serverPort][commandName]["help"] = commandHelpMessage;
             }
-            else if (commandHelpString == "default_help_two_players")
+        
+            if (commandType == "text")
             {
-                commandHelpMessage = array("Example: " + GetDvar("cc_prefix") + commandName + " me Resxt", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt me", "Example: " + GetDvar("cc_prefix") + commandName + " Resxt Eldor");
+                level.commands[serverPort][commandName]["text"] = commandValue;
+            }
+            else if (commandType == "function")
+            {
+                level.commands[serverPort][commandName]["function"] = commandValue;
             }
 
-            level.commands[serverPort][commandName]["help"] = commandHelpMessage;
-        }
-    
-        if (commandType == "text")
-        {
-            level.commands[serverPort][commandName]["text"] = commandValue;
-        }
-        else if (commandType == "function")
-        {
-            level.commands[serverPort][commandName]["function"] = commandValue;
-        }
-
-        if (IsDefined(commandMinimumPermission))
-        {
-            level.commands[serverPort][commandName]["permission"] = commandMinimumPermission;
-        }
-        else
-        {
-            level.commands[serverPort][commandName]["permission"] = GetDvarInt("cc_permission_default");
+            if (IsDefined(commandMinimumPermission))
+            {
+                level.commands[serverPort][commandName]["permission"] = commandMinimumPermission;
+            }
+            else
+            {
+                level.commands[serverPort][commandName]["permission"] = GetDvarInt("cc_permission_default");
+            }
         }
     }
 }
