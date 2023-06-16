@@ -80,6 +80,7 @@ ListWeapons(displayMode)
 ListAttachments(weaponName)
 {
     weaponIndex = 0;
+    finalWeaponName = "";
 
     if (IsDefined(weaponName))
     {
@@ -92,13 +93,36 @@ ListAttachments(weaponName)
         {
             return WeaponDoesNotExistError(weaponName);
         }
-
+        
         weaponIndex = getbaseweaponitemindex(weaponName);
+        finalWeaponName = weaponName;
     }
     else
     {
+        finalWeaponName = self getcurrentweapon();
         weaponIndex = getbaseweaponitemindex(self getcurrentweapon());
     }
 
-    self thread TellPlayer(StrTok(level.tbl_weaponids[weaponIndex]["attachment"], " "), 2);
+    attachments = StrTok(level.tbl_weaponids[weaponIndex]["attachment"], " ");
+    attachmentsFinal = [];
+
+    // remove everything after _ in attachments name as this was always returning wrong names
+    // for example it would return silencer_shotgun when the actual codename is just silencer etc
+    foreach (attachment in attachments)
+    {
+        attachmentsFinal = AddElementToArray(attachmentsFinal, StrTok(attachment, "_")[0]);
+    }
+
+    self thread TellPlayer(attachmentsFinal, 2);
+
+    if (DebugIsOn())
+    {
+        Print("-------------------------------");
+        Print("Available attachments for " + getweapondisplayname(finalWeaponName) + " (" + StrTok(finalWeaponName, "_mp")[0] + "_mp" + ")");
+
+        foreach (attachment in attachmentsFinal)
+        {
+            Print(attachment);
+        }
+    }
 }
