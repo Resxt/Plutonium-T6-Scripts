@@ -40,7 +40,19 @@ GivePlayerWeapon(targetedPlayerName, weaponName, camoIndex, takeCurrentWeapon, p
     weaponName = ToLower(weaponName);
     weaponSplitted = StrTok(weaponName, "+");
     weaponName = weaponSplitted[0];
-    attachments = weaponSplitted[1];
+    attachments = "";
+    
+    for (i = 1; i < weaponSplitted.size; i++)
+    {
+        if (i == 1)
+        {
+            attachments += weaponSplitted[i];
+        }
+        else
+        {
+            attachments += "+" + weaponSplitted[i];
+        }
+    }
 
     if (IsMultiplayerMode())
     {
@@ -66,8 +78,13 @@ GivePlayerWeapon(targetedPlayerName, weaponName, camoIndex, takeCurrentWeapon, p
     {
         player TakeWeapon(player GetCurrentWeapon());
     }
+    
+    if (IsDefined(attachments))
+    {
+        weaponName = weaponName + "+" + attachments;
+    }
 
-    DoGiveWeapon(weaponName, attachments, finalCamoIndex);
+    player GiveWeapon(weaponName, 0, finalCamoIndex);
     
     if (IsDefined(playSwitchAnimation) && playSwitchAnimation)
     {
@@ -77,19 +94,4 @@ GivePlayerWeapon(targetedPlayerName, weaponName, camoIndex, takeCurrentWeapon, p
     {
         player SetSpawnWeapon(weaponName);
     }
-}
-
-DoGiveWeapon(weaponCodeName, attachments, camoIndex)
-{
-    if (IsDefined(attachments) && attachments != "")
-    {
-        weaponCodeName = weaponCodeName+ "+" + attachments;
-    }
-
-    if (!IsDefined(camoIndex))
-    {
-        camoIndex = 0;
-    }
-
-    self GiveWeapon(weaponCodeName, 0, camoIndex);
 }
