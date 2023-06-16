@@ -119,13 +119,15 @@ Note that this does not work during the prematch period.
 You can use [chat_command_info.gsc](#chat_command_infogsc) to list available weapons and their attachments.  
 Alternatively you can use [this](https://forum.plutonium.pw/topic/1909/resource-stat-modification-checks-other-structures) to get weapon/attachment names from your browser.
 
-| More examples (MP) |
-|---|
-| `!giveweapon me kard_mp` (give weapon by codename) |
-| `!giveweapon me an94` (give weapon by codename without _mp at the end) |
-| `!giveweapon me as50_mp+ir` (give weapon by codename with an attachment) |
-| `!giveweapon me ballista_mp 15` (give weapon by codename with camo index 15, in this case gold camo) |
-| `!giveweapon me dsr50_mp+silencer 16` (give weapon by codename with an attachment and camo index 16, in this case diamond camo) |
+| More examples (MP) | Description |
+|---|---|
+| `!giveweapon me kard_mp` | Give weapon by codename |
+| `!giveweapon me an94` | Give weapon by codename without `_mp` at the end |
+| `!giveweapon me ballista_mp 15` | Give weapon by codename with camo index 15, in this case the Gold camo |
+| `!giveweapon me as50_mp+ir` | Give weapon by codename with an attachment |
+| `!giveweapon me dsr50_mp+silencer 16` | Give weapon by codename with an attachment and camo index 16, in this case the Diamond camo |
+| `!giveweapon me ballista+is+silencer 12` | Give weapon by codename without `_mp` at the end, with 2 attachments and with camo index 12, in this case the Art of War camo |
+| `!giveweapon me tar21+silencer+reflex+fastads 11` | Give weapon by codename with 3 attachments and camo index 11, in this case the Cherry Blossom camo |
 
 | More examples (ZM) |
 |---|
