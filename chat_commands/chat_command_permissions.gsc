@@ -2,8 +2,11 @@
 
 Init()
 {
-    CreateCommand(level.chat_commands["ports"], "getpermission", "function", ::GetPlayerPermissionCommand, 2);
-    CreateCommand(level.chat_commands["ports"], "setpermission", "function", ::SetPlayerPermissionCommand, 4);
+    if (PermissionIsEnabled())
+    {
+        CreateCommand(level.chat_commands["ports"], "getpermission", "function", ::GetPlayerPermissionCommand, 2, array("default_help_one_player"), array("gp"));
+        CreateCommand(level.chat_commands["ports"], "setpermission", "function", ::SetPlayerPermissionCommand, 4, [], array("sp"));
+    }
 }
 
 
