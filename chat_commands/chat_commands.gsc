@@ -13,7 +13,7 @@
 
 /* Init section */
 
-Main() 
+Main()
 {
     InitChatCommands();
 }
@@ -59,7 +59,7 @@ InitChatCommandsDvars()
 <commandMinimumPermission> (optional, if no value is provided then anyone who's permission level is default or above can run the command) the minimum permission level required to run this command. For example if this is set to 3 then any user with permission level 3 or 4 will be able to run this command
 <commandHelp> (optional) an array of the lines to print when typing the help command in the chat followed by a command name. You can also pass an array of one preset string to have it auto generated, for example: ["default_help_one_player"] 
 */
-CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimumPermission, commandHelp)
+CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimumPermission, commandHelp, commandAliases)
 {
     currentPort = GetDvar("net_port");
 
@@ -69,7 +69,7 @@ CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimu
         {
             level.commands[serverPort][commandName]["type"] = commandType;
 
-            if (IsDefined(commandHelp))
+            if (IsDefined(commandHelp) && commandHelp.size > 0)
             {
                 commandHelpMessage = commandHelp;
                 commandHelpString = commandHelp[0];
@@ -95,6 +95,11 @@ CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimu
                 level.commands[serverPort][commandName]["function"] = commandValue;
             }
 
+            if (IsDefined(commandAliases) && commandAliases.size > 0)
+            {
+                level.commands[serverPort][commandName]["aliases"] = commandAliases;
+            }
+
             if (IsDefined(commandMinimumPermission))
             {
                 level.commands[serverPort][commandName]["permission"] = commandMinimumPermission;
@@ -104,6 +109,35 @@ CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimu
                 level.commands[serverPort][commandName]["permission"] = GetDvarInt("cc_permission_default");
             }
         }
+    }
+}
+
+ExecuteCommand(command, args, player)
+{
+    if (command["type"] == "text")
+    {
+        player thread TellPlayer(command["text"], 2);
+    }
+    else if (command["type"] == "function")
+    {
+        error = player [[command["function"]]](args);
+
+        if (IsDefined(error))
+        {
+            player thread TellPlayer(error, 1.5);
+        }
+    }
+}
+
+TryExecuteCommand(commandValue, commandName, args, player)
+{
+    if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, commandValue["permission"]))
+    {
+        ExecuteCommand(commandValue, args, player);
+    }
+    else
+    {
+        player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), commandName, commandValue["permission"]), 1.5);
     }
 }
 
@@ -184,84 +218,160 @@ ChatListener()
                     player thread TellPlayer(GetArrayKeys(level.commands[GetDvar("net_port")]), 2, true);
                 }
             }
-            else
+            // help command (with args, for example help godmode)
+            else if (command == GetDvar("cc_prefix") + "help" && !IsDefined(level.commands[GetDvar("net_port")]["help"]) || command == GetDvar("cc_prefix") + "help" && IsDefined(level.commands[GetDvar("net_port")]["help"]) && args.size >= 1)
             {
-                // help command
-                if (command == GetDvar("cc_prefix") + "help" && !IsDefined(level.commands[GetDvar("net_port")]["help"]) || command == GetDvar("cc_prefix") + "help" && IsDefined(level.commands[GetDvar("net_port")]["help"]) && args.size >= 1)
+                if (args.size < 1)
                 {
-                    if (args.size < 1)
-                    {
-                        player thread TellPlayer(NotEnoughArgsError(1), 1.5);
-                    }
-                    else
-                    {
-                        commandValue = level.commands[GetDvar("net_port")][args[0]];
-
-                        if (IsDefined(commandValue))
-                        {
-                            if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, commandValue["permission"]))
-                            {
-                                commandHelp = commandValue["help"];
-
-                                if (IsDefined(commandHelp))
-                                {
-                                    player thread TellPlayer(commandHelp, 1.5);
-                                }
-                                else
-                                {
-                                    player thread TellPlayer(CommandHelpDoesNotExistError(args[0]), 1);
-                                }
-                            }
-                            else
-                            {
-                                player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), args[0], commandValue["permission"]), 1.5);
-                            }
-                        }
-                        else
-                        {
-                            if (args[0] == "commands")
-                            {
-                                player thread TellPlayer(CommandHelpDoesNotExistError(args[0]), 1);
-                            }
-                            else
-                            {
-                                player thread TellPlayer(CommandDoesNotExistError(args[0]), 1);
-                            }
-                        }
-                    }
+                    player thread TellPlayer(NotEnoughArgsError(1), 1.5);
                 }
-                // any other command
                 else
                 {
-                    commandName = GetSubStr(command, 1);
-                    commandValue = level.commands[GetDvar("net_port")][commandName];
+                    commandValue = level.commands[GetDvar("net_port")][args[0]];
 
                     if (IsDefined(commandValue))
                     {
                         if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, commandValue["permission"]))
                         {
-                            if (commandValue["type"] == "text")
-                            {
-                                player thread TellPlayer(commandValue["text"], 2);
-                            }
-                            else if (commandValue["type"] == "function")
-                            {
-                                error = player [[commandValue["function"]]](args);
+                            commandHelp = commandValue["help"];
 
-                                if (IsDefined(error))
-                                {
-                                    player thread TellPlayer(error, 1.5);
-                                }
+                            if (IsDefined(commandHelp))
+                            {
+                                player thread TellPlayer(commandHelp, 1.5);
+                            }
+                            else
+                            {
+                                player thread TellPlayer(CommandHelpDoesNotExistError(args[0]), 1);
                             }
                         }
                         else
                         {
-                            player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), commandName, commandValue["permission"]), 1.5);
+                            player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), args[0], commandValue["permission"]), 1.5);
                         }
                     }
                     else
                     {
-                        player thread TellPlayer(CommandDoesNotExistError(commandName), 1);
+                        originalCommandName = GetCommandNameFromAlias(args[0]);
+
+                        if (args[0] == "commands" || args[0] == "help" || args[0] == "aliases" || args[0] == "alias")
+                        {
+                            player thread TellPlayer(CommandHelpDoesNotExistError(args[0]), 1);
+                        }
+                        else if (args[0] == originalCommandName) // the command wasn't found while searching by its name and all the commands aliases
+                        {
+                            player thread TellPlayer(CommandDoesNotExistError(args[0]), 1);
+                        }
+                        else
+                        {
+                            commandHelp = level.commands[GetDvar("net_port")][originalCommandName]["help"];
+
+                            if (IsDefined(commandHelp))
+                            {
+                                if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, level.commands[GetDvar("net_port")][originalCommandName]["permission"]))
+                                {
+                                    player thread TellPlayer(commandHelp, 1.5);
+                                }
+                                else
+                                {
+                                    player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), args[0], level.commands[GetDvar("net_port")][originalCommandName]["permission"]), 1.5);
+                                }
+                            }
+                            else
+                            {
+                                player thread TellPlayer(CommandHelpDoesNotExistError(args[0]), 1);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (command == GetDvar("cc_prefix") + "alias" || command == GetDvar("cc_prefix") + "aliases") // alias/aliases command
+            {
+                if (args.size < 1)
+                {
+                    player thread TellPlayer(NotEnoughArgsError(1), 1.5);
+                }
+                else
+                {
+                    commandValue = level.commands[GetDvar("net_port")][args[0]];
+
+                    if (IsDefined(commandValue))
+                    {
+                        if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, commandValue["permission"]))
+                        {
+                            commandAliases = commandValue["aliases"];
+
+                            if (IsDefined(commandAliases) && commandAliases.size > 0)
+                            {
+                                player thread TellPlayer(commandAliases, 1.5);
+                            }
+                            else
+                            {
+                                player thread TellPlayer(CommandAliasesDoesNotExistError(args[0]), 1);
+                            }
+                        }
+                        else
+                        {
+                            player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), args[0], commandValue["permission"]), 1.5);
+                        }
+                    }
+                    else
+                    {
+                        originalCommandName = GetCommandNameFromAlias(args[0]);
+
+                        if (args[0] == "commands" || args[0] == "help" || args[0] == "aliases" || args[0] == "alias")
+                        {
+                            player thread TellPlayer(CommandAliasesDoesNotExistError(args[0]), 1);
+                        }
+                        else if (args[0] == originalCommandName) // the command wasn't found while searching by its name and all the commands aliases
+                        {
+                            player thread TellPlayer(CommandDoesNotExistError(args[0]), 1);
+                        }
+                        else
+                        {
+                            commandAliases = level.commands[GetDvar("net_port")][originalCommandName]["aliases"];
+
+                            if (IsDefined(commandAliases))
+                            {
+
+                                if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, level.commands[GetDvar("net_port")][originalCommandName]["permission"]))
+                                {
+                                    commandAliases = AddElementToArray(commandAliases, originalCommandName);
+
+                                    player thread TellPlayer(commandAliases, 1.5);
+                                }
+                                else
+                                {
+                                    player thread TellPlayer(InsufficientPermissionError(player GetPlayerPermissionLevel(), args[0], level.commands[GetDvar("net_port")][originalCommandName]["permission"]), 1.5);
+                                }
+                            }
+                            else
+                            {
+                                player thread TellPlayer(CommandAliasesDoesNotExistError(args[0]), 1);
+                            }
+                        }
+                    }
+                }
+            }
+            else // any other command
+            {
+                inputCommandName = GetSubStr(command, 1);
+                commandValue = level.commands[GetDvar("net_port")][inputCommandName];
+
+                if (IsDefined(commandValue)) // try to find the command by its original name
+                {
+                    TryExecuteCommand(commandValue, inputCommandName, args, player);
+                }
+                else // try to find the command by one of its aliases
+                {
+                    originalCommandName = GetCommandNameFromAlias(inputCommandName);
+                    
+                    if (inputCommandName == originalCommandName) // the command wasn't found while searching by its name and all the commands aliases
+                    {
+                        player thread TellPlayer(CommandDoesNotExistError(inputCommandName), 1);
+                    }
+                    else
+                    {
+                        TryExecuteCommand(level.commands[GetDvar("net_port")][originalCommandName], inputCommandName, args, player);
                     }
                 }
             }
@@ -352,6 +462,11 @@ CommandDoesNotExistError(commandName)
 CommandHelpDoesNotExistError(commandName)
 {
     return array("The command " + commandName + " doesn't have any help message");
+}
+
+CommandAliasesDoesNotExistError(commandName)
+{
+    return array("The command " + commandName + " doesn't have any alias");
 }
 
 InsufficientPermissionError(playerPermissionLevel, commandName, requiredPermissionLevel)
@@ -528,6 +643,29 @@ PlayerHasSufficientPermissions(player, targetedPermissionLevel)
     }
 
     return playerPermissionLevel >= targetedPermissionLevel;
+}
+
+/*
+Returns the original command name of <aliasToFind> if it exists
+If <aliasToFind> is not a valid alias then it just returns itself meaning it didn't find a related command
+*/
+GetCommandNameFromAlias(aliasToFind)
+{
+    foreach (commandName in GetArrayKeys(level.commands[GetDvar("net_port")]))
+    {
+        if (IsDefined(level.commands[GetDvar("net_port")][commandName]["aliases"]))
+        {
+            foreach (alias in level.commands[GetDvar("net_port")][commandName]["aliases"])
+            {
+                if (alias == aliasToFind)
+                {
+                    return commandName;
+                }
+            }
+        }
+    }
+
+    return aliasToFind;
 }
 
 DvarIsInitialized(dvarName)
