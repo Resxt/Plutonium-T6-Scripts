@@ -2,10 +2,10 @@
 
 Init()
 {
-    CreateCommand(level.chat_commands["ports"], "setround", "function", ::SetRoundCommand, 4);
-    CreateCommand(level.chat_commands["ports"], "previousround", "function", ::PreviousRoundCommand, 4);
-    CreateCommand(level.chat_commands["ports"], "nextround", "function", ::NextRoundCommand, 4);
-    CreateCommand(level.chat_commands["ports"], "restartround", "function", ::RestartRoundCommand, 4);
+    CreateCommand(level.chat_commands["ports"], "setround", "function", ::SetRoundCommand, 4, [], array("sr"));
+    CreateCommand(level.chat_commands["ports"], "previousround", "function", ::PreviousRoundCommand, 4, [], array("pr"));
+    CreateCommand(level.chat_commands["ports"], "nextround", "function", ::NextRoundCommand, 4, [], array("nr"));
+    CreateCommand(level.chat_commands["ports"], "restartround", "function", ::RestartRoundCommand, 4, [], array("rr"));
 }
 
 
