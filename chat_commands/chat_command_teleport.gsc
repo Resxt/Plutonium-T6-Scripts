@@ -2,7 +2,7 @@
 
 Init()
 {
-    CreateCommand(level.chat_commands["ports"], "teleport", "function", ::TeleportCommand, 2, array("default_help_two_players"));
+    CreateCommand(level.chat_commands["ports"], "teleport", "function", ::TeleportCommand, 2, array("default_help_two_players"), array("tp"));
 }
 
 
