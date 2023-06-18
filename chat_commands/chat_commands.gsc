@@ -112,7 +112,7 @@ CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimu
     }
 }
 
-ExecuteCommand(command, args, player)
+ExecuteChatCommand(command, args, player)
 {
     if (command["type"] == "text")
     {
@@ -129,11 +129,11 @@ ExecuteCommand(command, args, player)
     }
 }
 
-TryExecuteCommand(commandValue, commandName, args, player)
+TryExecuteChatCommand(commandValue, commandName, args, player)
 {
     if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, commandValue["permission"]))
     {
-        ExecuteCommand(commandValue, args, player);
+        ExecuteChatCommand(commandValue, args, player);
     }
     else
     {
@@ -359,7 +359,7 @@ ChatListener()
 
                 if (IsDefined(commandValue)) // try to find the command by its original name
                 {
-                    TryExecuteCommand(commandValue, inputCommandName, args, player);
+                    TryExecuteChatCommand(commandValue, inputCommandName, args, player);
                 }
                 else // try to find the command by one of its aliases
                 {
@@ -371,7 +371,7 @@ ChatListener()
                     }
                     else
                     {
-                        TryExecuteCommand(level.commands[GetDvar("net_port")][originalCommandName], inputCommandName, args, player);
+                        TryExecuteChatCommand(level.commands[GetDvar("net_port")][originalCommandName], inputCommandName, args, player);
                     }
                 }
             }
