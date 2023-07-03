@@ -255,6 +255,29 @@ Prints how to use the `commands` and the `help command` commands in the player's
 |---|
 | 1 |
 
+## chat_command_ufo_mode.gsc
+
+Toggles whether the targeted player can use the ufo mode or not.  
+This allows the player to fly around the map by holding the melee button and, if death barrier protection is on, to get out of map without dying.  
+
+The death barrier protection is on by default.  
+In ZM it will remove the death barriers for the entire team.  
+In MP it will put the player in god mode until disabling UFO mode (running the command again).  
+If the player had god mode from the god mode chat command he will keep the god mode.
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to toggle ufo mode for | :white_check_mark: |
+
+| Examples |
+|---|
+| `!ufomode me` |
+| `!ufomode Resxt` |
+
+| Permission level |
+|---|
+| 3 |
+
 ## chat_command_unfair_aimbot.gsc
 
 Toggles unfair aimbot on the targeted player.
