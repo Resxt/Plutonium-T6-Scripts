@@ -18,6 +18,8 @@
 
 Init()
 {
+    SetDvarIfNotInitialized("mapvote_enable", true);
+
     if (GetDvarInt("mapvote_enable"))
     {
         level.mapvote_rotate_function = ::StartRotation;
@@ -82,6 +84,7 @@ InitDvars()
     SetDvarIfNotInitialized("mapvote_blur_fade_in_time", 2);
     SetDvarIfNotInitialized("mapvote_horizontal_spacing", 75);
     SetDvarIfNotInitialized("mapvote_display_wait_time", 1);
+    SetDvarIfNotInitialized("mapvote_default_rotation_enable", false);
     SetDvarIfNotInitialized("mapvote_default_rotation_min_players", 0);
     SetDvarIfNotInitialized("mapvote_default_rotation_max_players", 0);
 }
@@ -665,18 +668,6 @@ GetVoteLimits(mapsAmount, modesAmount)
     return limits;
 }
 
-ShouldRotateDefault()
-{
-    humanPlayersCount = GetHumanPlayers().size;
-
-    if (GetDvarInt("mapvote_default_rotation_max_players") > 0 && humanPlayersCount >= GetDvarInt("mapvote_default_rotation_min_players") && humanPlayersCount <= GetDvarInt("mapvote_default_rotation_max_players"))
-    {
-        return true;
-    }
-
-    return false;
-}
-
 RotateDefault()
 {
     mapName = "";
@@ -707,7 +698,9 @@ DoRotation(modeCfg, mapName)
 
 StartRotation()
 {
-	if (ShouldRotateDefault())
+    humanPlayersCount = GetHumanPlayers().size;
+    
+	if (GetDvarInt("mapvote_default_rotation_enable") && humanPlayersCount >= GetDvarInt("mapvote_default_rotation_min_players") && humanPlayersCount <= GetDvarInt("mapvote_default_rotation_max_players"))
 	{
 		RotateDefault();
 	}

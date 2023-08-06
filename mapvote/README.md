@@ -40,13 +40,13 @@ Since it's disabled by default it won't affect your servers or run unless you en
 
 ### Getting started
 
-By default the script is disabled to avoid running on all your servers.  
-Simply set `mapvote_enable` to 1 and the script will be loaded, which as a result will display the voting menu when the game ends (after the killcam in multiplayer and once every players are dead in zombies).  
-
 To configure the menu before putting it on your server I recommend running it in a custom game with the `mapvote_debug` dvar set to `1`.  
-To do that use this command in the console `set mapvote_enable 1;set mapvote_debug 1` before running a custom game.  
+To do that use this command in the console `set mapvote_debug 1` before running a custom game.  
 Start a custom game and you will see the menu. Everything will work but map rotation which is normal.  
 You can then configure the dvars directly in your console and restart the map with `map_restart` in the console to edit the menu quickly and get your perfect setup.
+
+Note that by default the mapvote will be activated on all of your servers.  
+If you run multiple servers and want it off on certain servers you will need to add `set mapvote_enable 0` in the server's CFG.
 
 ### Dvars
 
@@ -57,7 +57,7 @@ Here are the dvars you can configure:
   
   | Name | Description | Default value | Accepted values |
 |---|---|---|---|
-| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 | 0 or 1 |
+| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 1 | 0 or 1 |
 | mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_maps | A list of the maps that are available for rotation | Every maps including DLC maps | Any map name. Each map is separated with a colon (:) |
 | mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load | "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" | Any text followed by a comma (,) and then the cfg name. Each block is separated with a colon (:) |
@@ -78,6 +78,7 @@ Here are the dvars you can configure:
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to the longest map or mode name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 | mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number superior or equal to 0.05 |
+| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Hijacked:Raid:Nuketown" | Any map name. Each map is separated with a colon (:) |
 | mapvote_default_rotation_modes  | A list of the modes that are available for default rotation. It needs to be the name of a CFG file | "tdm" | Any cfg file name. Each cfg file name is separated with a colon (:) |
 | mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
@@ -90,7 +91,7 @@ Here are the dvars you can configure:
   
   | Name | Description | Default value | Accepted values |
 |---|---|---|---|
-| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 | 0 or 1 |
+| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 1 | 0 or 1 |
 | mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_maps | A list of the maps that are available for rotation, including how you want to display it and which CFG to load | All survival/classic maps but Tranzit including DLC maps | Any text followed by a comma (,) with then the map name followed by a comma (,) and finally the CFG file name. Each block is separated with a colon (:) |
 | mapvote_limits_max | The maximum amount of maps to display | 12 | Any plain number from 2 to 12 |
@@ -106,6 +107,7 @@ Here are the dvars you can configure:
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
 | mapvote_horizontal_spacing | The horizontal spacing between the map names on the left and the vote counts on the right. I recommend setting this value according to the longest map name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
 | mapvote_display_wait_time | Once the game over screen ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number above 0.05 |
+| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 | 0 or 1 |
 | mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Town,zm_standard_town:Farm,zm_standard_farm" | The map name followed by a comma (,) and then the CFG file name. Each block is separated with a colon (:) |
 | mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
 | mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
@@ -141,6 +143,7 @@ set mapvote_blur_level 2.5
 set mapvote_blur_fade_in_time 2
 set mapvote_horizontal_spacing 75
 set mapvote_display_wait_time 1
+set mapvote_default_rotation_enable 0
 set mapvote_default_rotation_maps "Hijacked:Raid:Nuketown"
 set mapvote_default_rotation_modes "tdm"
 set mapvote_default_rotation_min_players 0
@@ -181,6 +184,7 @@ set mapvote_blur_level 2.5
 set mapvote_blur_fade_in_time 2
 set mapvote_horizontal_spacing 75
 set mapvote_display_wait_time 1
+set mapvote_default_rotation_enable 0
 set mapvote_default_rotation_maps "Town,zm_standard_town:Farm,zm_standard_farm"
 set mapvote_default_rotation_min_players 0
 set mapvote_default_rotation_max_players 0
