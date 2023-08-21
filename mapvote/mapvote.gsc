@@ -198,6 +198,10 @@ ListenForVoteInputs()
         {
             continue; // stop/skip execution
         }
+        else if (section == "mode" && level.mapvote["maps"]["by_index"].size <= 1 && input == "mapvote_unselect")
+        {
+            continue; // stop/skip execution
+        }
 
         if (input == "mapvote_down")
         {
@@ -317,7 +321,7 @@ CreateVoteMenu()
     {
         sectionsSeparation = 0;
 
-        if (level.mapvote["modes"]["by_index"].size > 1)
+        if (level.mapvote["modes"]["by_index"].size > 1 && level.mapvote["maps"]["by_index"].size > 1)
         {
             sectionsSeparation = 1;
         }
@@ -329,39 +333,42 @@ CreateVoteMenu()
         hudLastPosY = -(((level.mapvote["maps"]["by_index"].size * spacing) / 2) - (spacing / 2));
     }
 
-    for (mapIndex = 0; mapIndex < level.mapvote["maps"]["by_index"].size; mapIndex++)
+    if (level.mapvote["maps"]["by_index"].size > 1)
     {
-        mapVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
-        mapVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
-
-        level.mapvote["hud"]["maps"][mapIndex] = mapVotesHud;
-
-        foreach (player in GetHumanPlayers())
+        for (mapIndex = 0; mapIndex < level.mapvote["maps"]["by_index"].size; mapIndex++)
         {
-            mapName = "";
+            mapVotesHud = CreateHudText("", "objective", 1.5, "LEFT", "CENTER", GetDvarInt("mapvote_horizontal_spacing"), hudLastPosY, true, 0);
+            mapVotesHud.color = GetGscColor(GetDvar("mapvote_colors_selected"));
 
-            if (IsMultiplayerMode())
+            level.mapvote["hud"]["maps"][mapIndex] = mapVotesHud;
+
+            foreach (player in GetHumanPlayers())
             {
-                mapName = level.mapvote["maps"]["by_index"][mapIndex];
-            }
-            else
-            {
-                mapName = level.mapvote["maps"]["by_index"][mapIndex][0];
+                mapName = "";
+
+                if (IsMultiplayerMode())
+                {
+                    mapName = level.mapvote["maps"]["by_index"][mapIndex];
+                }
+                else
+                {
+                    mapName = level.mapvote["maps"]["by_index"][mapIndex][0];
+                }
+
+                player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(mapName, "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
+
+                if (mapIndex == 0)
+                {
+                    player UpdateSelection("map", 0);
+                }
+                else
+                {
+                    SetElementUnselected(player.mapvote["map"][mapIndex]["hud"]);
+                }
             }
 
-            player.mapvote["map"][mapIndex]["hud"] = player CreateHudText(mapName, "objective", 1.5, "LEFT", "CENTER", -(GetDvarInt("mapvote_horizontal_spacing")), hudLastPosY);
-
-            if (mapIndex == 0)
-            {
-                player UpdateSelection("map", 0);
-            }
-            else
-            {
-                SetElementUnselected(player.mapvote["map"][mapIndex]["hud"]);
-            }
+            hudLastPosY += spacing;
         }
-
-        hudLastPosY += spacing;
     }
 
     if (IsMultiplayerMode() && level.mapvote["modes"]["by_index"].size > 1)
@@ -383,6 +390,11 @@ CreateVoteMenu()
             }
 
             hudLastPosY += spacing;
+        }
+
+        if (level.mapvote["maps"]["by_index"].size <= 1)
+        {
+            player UpdateSelection("mode", 0);
         }
     }
 
