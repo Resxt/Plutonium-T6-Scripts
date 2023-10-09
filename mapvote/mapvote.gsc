@@ -16,10 +16,13 @@
 
 /* Entry point */
 
-Init()
+Main()
 {
     SetDvarIfNotInitialized("mapvote_enable", true);
+}
 
+Init()
+{
     if (GetDvarInt("mapvote_enable"))
     {
         level.mapvote_rotate_function = ::StartRotation;
