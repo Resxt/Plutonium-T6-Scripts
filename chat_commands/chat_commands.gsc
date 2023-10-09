@@ -509,6 +509,11 @@ WeaponDoesNotExistError(weaponName)
     return array("The weapon " + weaponName + " doesn't exist");
 }
 
+NotEnoughPointsError()
+{
+    return array("You don't have enough points to do that");
+}
+
 
 
 /* Utils section */
