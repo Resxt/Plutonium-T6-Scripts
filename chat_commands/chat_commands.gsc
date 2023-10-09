@@ -520,6 +520,9 @@ FindPlayerByName(name)
         return self;
     }
     
+    potentialPlayersFound = 0;
+    foundPlayer = undefined;
+
     foreach (player in level.players)
     {
         playerName = player.name;
@@ -529,10 +532,25 @@ FindPlayerByName(name)
             playerName = StrTok(playerName, "]")[1]; // ignore the clantag
         }
 
-        if (ToLower(playerName) == ToLower(name))
+        if (ToLower(playerName) == ToLower(name)) // if we get an exact match return the player
         {
             return player;
         }
+
+        if (ToLower(GetSubStr(playerName, 0, name.size)) == ToLower(name)) // found a player who's name starts with the given text
+        {
+            potentialPlayersFound++;
+        }
+
+        if (potentialPlayersFound == 1 && !IsDefined(foundPlayer)) // store the first player we find, since we only return one if and only if it only finds one
+        {
+            foundPlayer = player;
+        }
+    }
+
+    if (potentialPlayersFound == 1) // we only found one player who's name starts with the given text so it's safe to return the player we found
+    {
+        return foundPlayer;
     }
 }
 
