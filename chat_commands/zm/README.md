@@ -2,6 +2,23 @@
 
 These scripts go in `scripts\zm`
 
+## chat_command_no_target.gsc
+
+Toggles whether the targeted player is in no target mode (invisible to zombies) or not.  
+
+| # | Argument | Mandatory |
+|---|---|---|
+| 1 | The name of the player to toggle no target for | :white_check_mark: |
+
+| Examples |
+|---|
+| `!notarget me` |
+| `!notarget Resxt` |
+
+| Permission level |
+|---|
+| 3 |
+
 ## chat_command_points.gsc
 
 4 related commands in one file:  
