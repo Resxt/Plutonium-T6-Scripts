@@ -62,6 +62,7 @@ InitChatCommandsDvars()
 CreateCommand(serverPorts, commandName, commandType, commandValue, commandMinimumPermission, commandHelp, commandAliases)
 {
     currentPort = GetDvar("net_port");
+    commandName = ToLower(commandName); // always create commands in lower case to avoid any potential casing issue
 
     foreach (serverPort in serverPorts)
     {
@@ -168,7 +169,7 @@ ChatListener()
         }
 
         commandArray = StrTok(message, " "); // Separate the command by space character. Example: ["!map", "mp_dome"]
-        command = commandArray[0]; // The command as text. Example: !map
+        command = ToLower(commandArray[0]); // The command as text in lower text to support any casing. Example: !map
         args = []; // The arguments passed to the command. Example: ["mp_dome"]
         arg = "";
 
@@ -251,7 +252,7 @@ ChatListener()
                     }
                     else
                     {
-                        originalCommandName = GetCommandNameFromAlias(args[0]);
+                        originalCommandName = ToLower(GetCommandNameFromAlias(args[0]));
 
                         if (args[0] == "commands" || args[0] == "help" || args[0] == "aliases" || args[0] == "alias")
                         {
@@ -316,7 +317,7 @@ ChatListener()
                     }
                     else
                     {
-                        originalCommandName = GetCommandNameFromAlias(args[0]);
+                        originalCommandName = ToLower(GetCommandNameFromAlias(args[0]));
 
                         if (args[0] == "commands" || args[0] == "help" || args[0] == "aliases" || args[0] == "alias")
                         {
@@ -332,7 +333,6 @@ ChatListener()
 
                             if (IsDefined(commandAliases))
                             {
-
                                 if (!PermissionIsEnabled() || PlayerHasSufficientPermissions(player, level.commands[GetDvar("net_port")][originalCommandName]["permission"]))
                                 {
                                     commandAliases = AddElementToArray(commandAliases, originalCommandName);
@@ -363,7 +363,7 @@ ChatListener()
                 }
                 else // try to find the command by one of its aliases
                 {
-                    originalCommandName = GetCommandNameFromAlias(inputCommandName);
+                    originalCommandName = ToLower(GetCommandNameFromAlias(inputCommandName));
                     
                     if (inputCommandName == originalCommandName) // the command wasn't found while searching by its name and all the commands aliases
                     {
@@ -520,7 +520,7 @@ NotEnoughPointsError()
 
 FindPlayerByName(name)
 {
-    if (name == "me")
+    if (ToLower(name) == "me")
     {
         return self;
     }
@@ -674,6 +674,8 @@ If <aliasToFind> is not a valid alias then it just returns itself meaning it did
 */
 GetCommandNameFromAlias(aliasToFind)
 {
+    aliasToFind = ToLower(aliasToFind);
+    
     foreach (commandName in GetArrayKeys(level.commands[GetDvar("net_port")]))
     {
         if (IsDefined(level.commands[GetDvar("net_port")][commandName]["aliases"]))
@@ -712,7 +714,7 @@ IsBot()
 
 TargetIsMyself(targetName)
 {
-    return targetName == "me" || ToLower(targetName) == ToLower(self.name);
+    return ToLower(targetName) == "me" || ToLower(targetName) == ToLower(self.name);
 }
 
 AddElementToArray(array, element)
