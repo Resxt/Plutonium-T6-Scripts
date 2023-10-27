@@ -514,6 +514,11 @@ NotEnoughPointsError()
     return array("You don't have enough points to do that");
 }
 
+PowerupDoesNotExistError(powerupName)
+{
+    return array("The powerup " + powerupName + " doesn't exist or isn't available on this map");
+}
+
 
 
 /* Utils section */
@@ -744,4 +749,24 @@ IsValidWeapon(weaponName)
     weaponIndex = getbaseweaponitemindex(weaponName);
 
     return weaponIndex != 0;
+}
+
+GetAvailablePowerups()
+{
+    powerups = [];
+
+    foreach (powerup in GetArrayKeys(level.zombie_powerups))
+    {
+        if (powerup != "insta_kill_ug")
+        {
+            powerups = AddElementToArray(powerups, powerup);
+        }
+    }
+
+    return powerups;
+}
+
+IsValidPowerup(powerupName)
+{
+    return IsInArray(GetAvailablePowerups(), powerupName);
 }
