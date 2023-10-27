@@ -2,6 +2,18 @@
 
 These scripts go in `scripts\zm`
 
+## chat_command_give.gsc
+
+| Name | Description | Arguments expected | Example | Permission level |
+|---|---|---|---|---|
+| givepowerup | Makes the powerup drop on the player, which activates it | (1) the code name of the powerup | `!givepowerup full_ammo` | 2 |
+
+You can use [chat_command_info.gsc](../README.md#chat_command_infogsc) to list available powerups.  
+Alternatively you can use [this](https://github.com/plutoniummod/t6-scripts/blob/main/ZM/Core/maps/mp/zombies/_zm_powerups.gsc#L95) to get powerup code names from your browser (first parameter of the `add_zombie_powerup` function calls). Note that this lists all powerups without taking into account whether they're available on the map you play on or not.
+
+Note that like other scripts on this page this is a ZM only script, but this script also has a global version (works in both MP and ZM) that you can find [here](../chat_command_give.gsc) if you're looking for more give commands.  
+You can have both installed at the same time as long as this script is in the `zm` folder and the global version is either in the `scripts` folder or the `mp` folder.
+
 ## chat_command_no_target.gsc
 
 Toggles whether the targeted player is in no target mode (invisible to zombies) or not.  
