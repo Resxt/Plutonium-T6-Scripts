@@ -160,11 +160,13 @@ Toggles whether the targeted player is in god mode (invincible) or not.
 
 - List available weapons
 - List available attachments (MP only)
+- List available powerups (ZM only)
 
 | Name | Description | Arguments expected | Example | Permission level |
 |---|---|---|---|---|
 | listweapons | Prints all the available weapons. No argument prints code names, any argument will print display/human readable names instead | (1) optional, any text | `!listweapons` | 2 |
 | listattachments | Prints all the available attachments for that weapon. No argument prints available attachments for the weapon you're holding, a valid weapon codename as argument will print this weapon's available attachments instead | (1) optional, valid weapon codename | `!listattachments dsr50_mp` | 2 |
+| listattachments | Prints all the available powerups in the map you're currently playing on | | `!listpowerups` | 2 |
 
 You can check [this](https://forum.plutonium.pw/topic/1909/resource-stat-modification-checks-other-structures) to get weapon/attachment names from your browser instead.
 
