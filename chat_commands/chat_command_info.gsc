@@ -10,6 +10,7 @@ Init()
     if (!IsMultiplayerMode())
     {
         CreateCommand(level.chat_commands["ports"], "listpowerups", "function", ::ListPowerupsCommand, 2);
+        CreateCommand(level.chat_commands["ports"], "listperks", "function", ::ListPerksCommand, 2);
     }
 
     CreateCommand(level.chat_commands["ports"], "listweapons", "function", ::ListWeaponsCommand, 2);
@@ -37,6 +38,16 @@ ListAttachmentsCommand(args)
 ListPowerupsCommand(args)
 {
     error = self thread ListPowerups();
+
+    if (IsDefined(error))
+    {
+        return error;
+    }
+}
+
+ListPerksCommand(args)
+{
+    error = self thread ListPerks();
 
     if (IsDefined(error))
     {
@@ -145,4 +156,9 @@ ListAttachments(weaponName)
 ListPowerups()
 {
     self thread TellPlayer(GetAvailablePowerups(), 2);
+}
+
+ListPerks()
+{
+    self thread TellPlayer(GetAvailablePerks(), 2);
 }
