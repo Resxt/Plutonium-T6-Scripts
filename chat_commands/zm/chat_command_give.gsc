@@ -3,6 +3,7 @@
 Init()
 {
     CreateCommand(level.chat_commands["ports"], "givepowerup", "function", ::GivePowerupCommand, 2, [], array("spawnpowerup", "powerup", "pu"));
+    CreateCommand(level.chat_commands["ports"], "giveperk", "function", ::GivePerkCommand, 2, [], array("perk"));
 }
 
 
@@ -17,6 +18,21 @@ GivePowerupCommand(args)
     }
 
     error = GivePlayerPowerup(args[0]);
+
+    if (IsDefined(error))
+    {
+        return error;
+    }
+}
+
+GivePerkCommand(args)
+{
+    if (args.size < 2)
+    {
+        return NotEnoughArgsError(2);
+    }
+
+    error = GivePlayerPerk(args[0], args[1], true, true);
 
     if (IsDefined(error))
     {
@@ -62,5 +78,45 @@ GivePlayerPowerup(powerupName)
     }
 }
 
+GivePlayerPerk(playerName, perkName, enableMusic, enableAnimation)
+{
+    player = FindPlayerByName(playerName);
+
+    if (!IsDefined(player))
+    {
+        return PlayerDoesNotExistError(playerName);
+    }
+
+    if (ToLower(perkName) == "all")
+    {
+        foreach (perk in GetAvailablePerks())
+        {
+            player thread maps\mp\zombies\_zm_perks::give_perk(perk, 0);
+        }
+    }
+    else
+    {
+        perkInfos = GetPerkInfos(perkName);
+
+        if (perkInfos.size > 0)
+        {
+            if (enableMusic)
+            {
+                player thread maps\mp\zombies\_zm_audio::play_jingle_or_stinger( perkInfos["music"]);
+            }
+            
+            if (enableAnimation)
+            {
+                player thread vending_trigger_post_think(player, perkInfos["perk_name"]);
+            }
+            else
+            {
+                player thread maps\mp\zombies\_zm_perks::give_perk(perkInfos["perk_name"], 0);
+            }
+        }
+        else
+        {
+            return PerkDoesNotExistError(perkName);
+        }
     }
 }
