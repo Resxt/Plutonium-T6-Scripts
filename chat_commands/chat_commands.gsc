@@ -519,6 +519,11 @@ PowerupDoesNotExistError(powerupName)
     return array("The powerup " + powerupName + " doesn't exist or isn't available on this map");
 }
 
+PerkDoesNotExistError(perkName)
+{
+    return array("The perk " + perkName + " doesn't exist, isn't available on this map or doesn't have this alias");
+}
+
 
 
 /* Utils section */
@@ -769,4 +774,163 @@ GetAvailablePowerups()
 IsValidPowerup(powerupName)
 {
     return IsInArray(GetAvailablePowerups(), powerupName);
+}
+
+GetAvailablePerks()
+{
+    perks = [];
+
+    foreach (machine in GetEntArray( "zombie_vending", "targetname" ))
+    {
+        if (machine.script_noteworthy != "specialty_weapupgrade")
+        {
+            perks = AddElementToArray(perks, machine.script_noteworthy);
+        }
+    }
+    Print("perkssize: " + perks.size);
+    return perks;
+}
+
+GetPerkInfos(perkName)
+{
+    perkInfos = [];
+    realPerkName = "";
+
+    switch (perkName)
+    {
+        case "specialty_armorvest":
+        case "armorvest":
+        case "jug":
+        case "jugg":
+        case "jugger":
+        case "juggernaut":
+        case "juggernaught":
+        case "juggernog":
+        realPerkName = "specialty_armorvest";
+        break;
+
+        case "specialty_quickrevive":
+        case "quickrevive":
+        case "revive":
+        case "qr":
+        case "rv":
+        case "rev":
+        realPerkName = "specialty_quickrevive";
+        break;
+
+        case "specialty_fastreload":
+        case "fastreload":
+        case "reload":
+        case "quickreload":
+        case "sleight":
+        case "sleightofhand":
+        case "speedcola":
+        case "cola":
+        realPerkName = "specialty_fastreload";
+        break;
+
+        case "specialty_longersprint":
+        case "longersprint":
+        case "longsprint":
+        case "marathon":
+        case "sprint":
+        case "fast":
+        case "stamin":
+        case "stamin-up":
+        case "staminup":
+        case "stamina":
+        realPerkName = "specialty_longersprint";
+        break;
+
+        case "specialty_flakjacket":
+        case "flakjacket":
+        case "phd":
+        case "flopper":
+        case "phdflopper":
+        realPerkName = "specialty_flakjacket";
+        break;
+
+        case "specialty_deadshot":
+        case "deadshot":
+        case "ds":
+        case "daiquiri":
+        realPerkName = "specialty_deadshot";
+        break;
+
+        case "specialty_additionalprimaryweapon":
+        case "additionalprimaryweapon":
+        case "mulekick":
+        case "mule":
+        case "kick":
+        case "mk":
+        case "additionalweapon":
+        case "moreweapons":
+        realPerkName = "specialty_additionalprimaryweapon";
+        break;
+
+        case "specialty_rof":
+        case "rof":
+        case "doubletap":
+        case "double-tap":
+        case "dt":
+        case "rapidfire":
+        realPerkName = "specialty_rof";
+        break;
+
+        case "specialty_finalstand":
+        case "finalstand":
+        case "whoswho":
+        case "whowho":
+        case "fs":
+        realPerkName = "specialty_finalstand";
+        break;
+
+        case "specialty_nomotionsensor":
+        case "nomotionsensor":
+        case "vultureaid":
+        case "vulture":
+        case "va":
+        case "aid":
+        case "perkwallhack":
+        case "wh":
+        realPerkName = "specialty_nomotionsensor";
+        break;
+
+        case "specialty_grenadepulldeath":
+        case "grenadepulldeath":
+        case "electriccherry":
+        case "electric":
+        case "cherry":
+        case "ec":
+        case "lighting":
+        case "reloadstun":
+        realPerkName = "specialty_grenadepulldeath";
+        break;
+
+        case "specialty_scavenger":
+        case "scavenger":
+        case "tombstone":
+        case "stone":
+        case "tomb":
+        case "tumb":
+        realPerkName = "specialty_scavenger";
+        break;
+    }
+
+    Print("realPerkName: " + realPerkName);
+
+    if (realPerkName != "")
+    {
+        foreach (machine in GetEntArray( "zombie_vending", "targetname" ))
+        {
+            if (machine.script_noteworthy == realPerkName) // e.g: specialty_armorvest
+            {
+                perkInfos["perk_name"] = machine.script_noteworthy; // e.g: specialty_armorvest
+                perkInfos["bottle_model"] = "zombie_perk_bottle_" + GetSubStr(machine.target, 8, machine.target.size); // e.g: zombie_perk_bottle_jugg
+                perkInfos["music"] = machine.script_label;
+            }
+        }
+    }
+
+    return perkInfos;
 }
