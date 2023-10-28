@@ -30,12 +30,37 @@ GivePowerupCommand(args)
 
 GivePlayerPowerup(powerupName)
 {
-    if (IsValidPowerup(powerupName))
+    powerupName = ToLower(powerupName);
+
+    if (powerupName == "all")
     {
-        level thread maps\mp\zombies\_zm_powerups::specific_powerup_drop(powerupName, self.origin);
+        foreach (powerup in GetAvailablePowerups())
+        {
+            level thread maps\mp\zombies\_zm_powerups::specific_powerup_drop(powerup, self.origin);
+        }
+    }
+    else if (powerupName == "allbutnuke" || powerupName == "all_but_nuke" || powerupName == "allnonuke" || powerupName == "all_no_nuke")
+    {
+        foreach (powerup in GetAvailablePowerups())
+        {
+            if (powerup != "nuke")
+            {
+                level thread maps\mp\zombies\_zm_powerups::specific_powerup_drop(powerup, self.origin);
+            }
+        }
     }
     else
     {
-        return PowerupDoesNotExistError(powerupName);
+        if (IsValidPowerup(powerupName))
+        {
+            level thread maps\mp\zombies\_zm_powerups::specific_powerup_drop(powerupName, self.origin);
+        }
+        else
+        {
+            return PowerupDoesNotExistError(powerupName);
+        }
+    }
+}
+
     }
 }

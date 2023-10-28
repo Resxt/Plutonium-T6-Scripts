@@ -14,6 +14,11 @@ Alternatively you can use [this](https://github.com/plutoniummod/t6-scripts/blob
 Note that like other scripts on this page this is a ZM only script, but this script also has a global version (works in both MP and ZM) that you can find [here](../chat_command_give.gsc) if you're looking for more give commands.  
 You can have both installed at the same time as long as this script is in the `zm` folder and the global version is either in the `scripts` folder or the `mp` folder.
 
+| More examples |
+|---|
+| `!givepowerup all` |
+| `!givepowerup all_no_nuke` |
+
 ## chat_command_no_target.gsc
 
 Toggles whether the targeted player is in no target mode (invisible to zombies) or not.  
