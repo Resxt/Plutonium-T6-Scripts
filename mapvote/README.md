@@ -58,8 +58,8 @@ The values you see are the default values that will be used if you don't set a d
 
   ```c
 set mapvote_enable 1
-set mapvote_maps "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff"
-set mapvote_modes "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth"
+set mapvote_maps "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff" // Default value: Every maps, including DLC maps
+set mapvote_modes "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" // Default value: Team Deathmatch, Domination and Hardpoint
 set mapvote_limits_maps 0
 set mapvote_limits_modes 0
 set mapvote_limits_max 12
@@ -104,7 +104,7 @@ Here are some pre-set values if you want to quickly copy/paste something
 
   ```c
 set mapvote_enable 1
-set mapvote_maps "Bus Depot,Bus Depot,zm_standard_transit:Town,Town,zm_standard_town:Farm,Farm,zm_standard_farm:Mob of The Dead,Mob of The Dead,zm_classic_prison:Nuketown,Nuketown,zm_standard_nuked:Origins,Origins,zm_classic_tomb:Buried,Buried,zm_classic_processing:Die Rise,Die Rise,zm_classic_rooftop"
+set mapvote_maps "Bus Depot,Bus Depot,zm_standard_transit:Town,Town,zm_standard_town:Farm,Farm,zm_standard_farm:Mob of The Dead,Mob of The Dead,zm_classic_prison:Nuketown,Nuketown,zm_standard_nuked:Origins,Origins,zm_classic_tomb:Buried,Buried,zm_classic_processing:Die Rise,Die Rise,zm_classic_rooftop" // All survival/classic maps but Tranzit, including DLC maps
 set mapvote_limits_max 12
 set mapvote_colors_selected "blue"
 set mapvote_colors_unselected "white"
