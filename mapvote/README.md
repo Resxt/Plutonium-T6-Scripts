@@ -48,72 +48,6 @@ You can then configure the dvars directly in your console and restart the map wi
 Note that by default the mapvote will be activated on all of your servers.  
 If you run multiple servers and want it off on certain servers you will need to add `set mapvote_enable 0` in the server's CFG.
 
-### Dvars
-
-Here are the dvars you can configure:
-
-<details>
-  <summary>Multiplayer dvars</summary>
-  
-  | Name | Description | Default value | Accepted values |
-|---|---|---|---|
-| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 1 | 0 or 1 |
-| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
-| mapvote_maps | A list of the maps that are available for rotation | Every maps including DLC maps | Any map name. Each map is separated with a colon (:) |
-| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load | "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" | Any text followed by a comma (,) and then the cfg name. Each block is separated with a colon (:) |
-| mapvote_limits_maps | The amount of maps to display. 0 will handle it automatically | 0 | Any plain number from 0 to `mapvote_limits_max` |
-| mapvote_limits_modes | The amount of modes to display. 0 will handle it automatically | 0 | Any plain number from 0 to `mapvote_limits_max` |
-| mapvote_limits_max | The maximum amount of elements to display (maps + modes) | 12 | 2, 4, 6, 8, 10, 12 |
-| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_unselected | The color of the text when not hovered and not selected | white | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | red | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | white | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | standard | standard or max |
-| mapvote_sounds_menu_enabled | Toggle whether the mapvote menu sounds are enabled or not. 0 is off and 1 is on | 1 | 0 or 1 |
-| mapvote_sounds_timer_enabled | Toggle whether the timer will start making a beeping sound every second when there's 5 or less seconds remaining to vote or not. 0 is off and 1 is on | 1 | 0 or 1 |
-| mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 |
-| mapvote_blur_level | The amount of blur to put when the mapvote menu starts to show. The max recommended value is 5. 0 disables it | 2.5 | Any number |
-| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
-| mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to the longest map or mode name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
-| mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number superior or equal to 0.05 |
-| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 | 0 or 1 |
-| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Hijacked:Raid:Nuketown" | Any map name. Each map is separated with a colon (:) |
-| mapvote_default_rotation_modes  | A list of the modes that are available for default rotation. It needs to be the name of a CFG file | "tdm" | Any cfg file name. Each cfg file name is separated with a colon (:) |
-| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
-| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
-  
-</details>
-
-<details>
-  <summary>Zombies dvars</summary>
-  
-  | Name | Description | Default value | Accepted values |
-|---|---|---|---|
-| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 1 | 0 or 1 |
-| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 | 0 or 1 |
-| mapvote_maps | A list of the maps that are available for rotation, including how you want to display it and which CFG to load | All survival/classic maps but Tranzit including DLC maps | Any text followed by a comma (,) with then the map name followed by a comma (,) and finally the CFG file name. Each block is separated with a colon (:) |
-| mapvote_limits_max | The maximum amount of maps to display | 12 | Any plain number from 2 to 12 |
-| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_unselected | The color of the text when not hovered and not selected | white | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | red | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | white | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | blue | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
-| mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | standard | standard or max |
-| mapvote_vote_time | The time the vote lasts (in seconds) | 30 | Any plain number above 5 |
-| mapvote_blur_level | The amount of blur to put when the mapvote menu starts to show. The max recommended value is 5. 0 disables it | 2.5 | Any number |
-| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | 2 | Any number |
-| mapvote_horizontal_spacing | The horizontal spacing between the map names on the left and the vote counts on the right. I recommend setting this value according to the longest map name length so that it doesn't overlap with the vote counts | 75 | Any plain number |
-| mapvote_display_wait_time | Once the game over screen ends, the time to wait before displaying the vote menu (in seconds) | 1 | Any number above 0.05 |
-| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 | 0 or 1 |
-| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | "Town,zm_standard_town:Farm,zm_standard_farm" | The map name followed by a comma (,) and then the CFG file name. Each block is separated with a colon (:) |
-| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
-| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | 0 | Any plain number from 0 to 18 |
-  
-</details>
-
 ### Configuration
 
 Below is an example CFG showing how each dvars can be configured.  
@@ -199,6 +133,72 @@ Here are some pre-set values if you want to quickly copy/paste something
 | Grief maps | "Buried (Grief),Buried,zm_grief_street:Mob of The Dead (Grief),Mob of The Dead,zm_grief_cellblock:Farm (Grief),Farm,zm_grief_farm:Town (Grief),Town,zm_grief_town:Bus Depot (Grief),Bus Depot,zm_grief_transit" |
 | Turned maps | "Buried (Turned),Buried,zm_cleansed_street:Diner (Turned),Diner,zm_cleansed_diner" |
 
+</details>
+
+### Dvars
+
+Here are the dvars you can configure:
+
+<details>
+  <summary>Multiplayer dvars</summary>
+  
+| Name | Description | Accepted values |
+|---|---|---|
+| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 or 1 |
+| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 or 1 |
+| mapvote_maps | A list of the maps that are available for rotation | Any map name. Each map is separated with a colon (:) |
+| mapvote_modes | A list of the modes that are available for rotation. The first parameter is how the mode will be displayed, it can be set to anything you like, the second parameter is the name of the cfg file to load | Any text followed by a comma (,) and then the cfg name. Each block is separated with a colon (:) |
+| mapvote_limits_maps | The amount of maps to display. 0 will handle it automatically | Any plain number from 0 to `mapvote_limits_max` |
+| mapvote_limits_modes | The amount of modes to display. 0 will handle it automatically | Any plain number from 0 to `mapvote_limits_max` |
+| mapvote_limits_max | The maximum amount of elements to display (maps + modes) | 2, 4, 6, 8, 10, 12 |
+| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_unselected | The color of the text when not hovered and not selected | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | standard or max |
+| mapvote_sounds_menu_enabled | Toggle whether the mapvote menu sounds are enabled or not. 0 is off and 1 is on | 0 or 1 |
+| mapvote_sounds_timer_enabled | Toggle whether the timer will start making a beeping sound every second when there's 5 or less seconds remaining to vote or not. 0 is off and 1 is on | 1 | 0 or 1 |
+| mapvote_vote_time | The time the vote lasts (in seconds) | Any plain number above 5 |
+| mapvote_blur_level | The amount of blur to put when the mapvote menu starts to show. The max recommended value is 5. 0 disables it | Any number |
+| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | Any number |
+| mapvote_horizontal_spacing | The horizontal spacing between the map/mode names on the left and the vote counts on the right. I recommend setting this value according to the longest map or mode name length so that it doesn't overlap with the vote counts | Any plain number |
+| mapvote_display_wait_time | Once the killcam ends, the time to wait before displaying the vote menu (in seconds) | Any number superior or equal to 0.05 |
+| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 or 1 |
+| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | Any map name. Each map is separated with a colon (:) |
+| mapvote_default_rotation_modes  | A list of the modes that are available for default rotation. It needs to be the name of a CFG file | Any cfg file name. Each cfg file name is separated with a colon (:) |
+| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | Any plain number from 0 to 18 |
+| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | Any plain number from 0 to 18 |
+  
+</details>
+
+<details>
+  <summary>Zombies dvars</summary>
+  
+  | Name | Description | Accepted values |
+|---|---|---|
+| mapvote_enable | Toggle whether the mapvote is activated or not. 0 is off and 1 is on | 0 or 1 |
+| mapvote_debug | Toggle whether the mapvote runs in debug mode or not. This will display the mapvote menu a few seconds after starting the game. 0 is off and 1 is on | 0 or 1 |
+| mapvote_maps | A list of the maps that are available for rotation, including how you want to display it and which CFG to load | Any text followed by a comma (,) with then the map name followed by a comma (,) and finally the CFG file name. Each block is separated with a colon (:) |
+| mapvote_limits_max | The maximum amount of maps to display | Any plain number from 2 to 12 |
+| mapvote_colors_selected | The color of the text when hovered or selected. This is also the color of the votes count | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_unselected | The color of the text when not hovered and not selected | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer | The color of the timer as long as it has more than 5 seconds remaining | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_timer_low | The color of the timer when it has 5 or less seconds remaining | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_text | The color of the help text at the bottom explaining how to use the menu | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
+| mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | standard or max |
+| mapvote_vote_time | The time the vote lasts (in seconds) | Any plain number above 5 |
+| mapvote_blur_level | The amount of blur to put when the mapvote menu starts to show. The max recommended value is 5. 0 disables it | Any number |
+| mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | Any number |
+| mapvote_horizontal_spacing | The horizontal spacing between the map names on the left and the vote counts on the right. I recommend setting this value according to the longest map name length so that it doesn't overlap with the vote counts | Any plain number |
+| mapvote_display_wait_time | Once the game over screen ends, the time to wait before displaying the vote menu (in seconds) | Any number above 0.05 |
+| mapvote_default_rotation_enable | Toggle whether the default rotation system is activated or not. This allows you to have one or more map(s) and mode(s) rotate by default when the human player count is between `mapvote_default_rotation_min_players` and `mapvote_default_rotation_max_players` (inclusive). 0 is off and 1 is on | 0 or 1 |
+| mapvote_default_rotation_maps | A list of the maps that are available for default rotation | The map name followed by a comma (,) and then the CFG file name. Each block is separated with a colon (:) |
+| mapvote_default_rotation_min_players | The minimum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is smaller than this then it will display the mapvote | Any plain number from 0 to 18 |
+| mapvote_default_rotation_max_players | The maximum amount of human players required to rotate the default rotation instead of showing the mapvote. If the human players count is higher than this then it will display the mapvote | Any plain number from 0 to 18 |
+  
 </details>
 
 ### Notes
