@@ -58,7 +58,7 @@ The values you see are the default values that will be used if you don't set a d
 
   ```c
 set mapvote_enable 1
-set mapvote_maps "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff" // Default value: Every maps, including DLC maps
+set mapvote_maps "Aftermath:Cargo:Carrier:Drone:Express:Hijacked:Meltdown:Overflow:Plaza:Raid:Slums:Standoff:Turbine:Yemen:Nuketown:Downhill:Mirage:Hydro:Grind:Encore:Magma:Vertigo:Studio:Uplink:Detour:Cove:Rush:Dig:Frost:Pod:Takeoff" // Default value: Every map, including DLC maps
 set mapvote_modes "Team Deathmatch,tdm:Domination,dom:Hardpoint,koth" // Default value: Team Deathmatch, Domination and Hardpoint
 set mapvote_limits_maps 0
 set mapvote_limits_modes 0
@@ -159,7 +159,7 @@ Here are the dvars you can configure:
 | mapvote_colors_help_accent | The color of the accented text of the help text at the bottom | red, green, yellow, blue, cyan, purple, white, grey, gray, black |
 | mapvote_colors_help_accent_mode | The accenting mode for the help text. `standard` only puts the accent color on the button to press and `max` puts it on both the buttons and the action it does | standard or max |
 | mapvote_sounds_menu_enabled | Toggle whether the mapvote menu sounds are enabled or not. 0 is off and 1 is on | 0 or 1 |
-| mapvote_sounds_timer_enabled | Toggle whether the timer will start making a beeping sound every second when there's 5 or less seconds remaining to vote or not. 0 is off and 1 is on | 1 | 0 or 1 |
+| mapvote_sounds_timer_enabled | Toggle whether the timer will start making a beeping sound every second when there's 5 or less seconds remaining to vote or not. 0 is off and 1 is on | 0 or 1 |
 | mapvote_vote_time | The time the vote lasts (in seconds) | Any plain number above 5 |
 | mapvote_blur_level | The amount of blur to put when the mapvote menu starts to show. The max recommended value is 5. 0 disables it | Any number |
 | mapvote_blur_fade_in_time | The time (in seconds) it takes for the blur to reach `mapvote_blur_level`. For example if you set it to 10 and `mapvote_blur_level` is 5 then it will progressively blur the screen from 0 to 5 in 10 seconds | Any number |
