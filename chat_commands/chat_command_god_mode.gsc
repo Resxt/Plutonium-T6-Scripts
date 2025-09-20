@@ -1,4 +1,5 @@
 #include scripts\chat_commands;
+#include common_scripts\utility;
 
 Init()
 {
