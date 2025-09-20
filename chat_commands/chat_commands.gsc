@@ -780,14 +780,21 @@ GetAvailablePerks()
 {
     perks = [];
 
-    foreach (machine in GetEntArray( "zombie_vending", "targetname" ))
+    if (GetEntArray("random_perk_machine", "targetname").size == 0)
     {
-        if (machine.script_noteworthy != "specialty_weapupgrade")
+        foreach (machine in GetEntArray( "zombie_vending", "targetname" ))
         {
-            perks = AddElementToArray(perks, machine.script_noteworthy);
+            if (machine.script_noteworthy != "specialty_weapupgrade")
+            {
+                perks = AddElementToArray(perks, machine.script_noteworthy);
+            }
         }
     }
-    Print("perkssize: " + perks.size);
+    else
+    {
+        perks = level._random_perk_machine_perk_list;
+    }
+    
     return perks;
 }
 
