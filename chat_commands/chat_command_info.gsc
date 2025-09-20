@@ -61,7 +61,9 @@ ListPerksCommand(args)
 
 ListWeapons(displayMode)
 {
-    waitTime = 1.5;
+    PrintLn("-------------------------------");
+    PrintLn("Available weapons");
+    PrintLn("-------------------------------");
 
     if (IsMultiplayerMode())
     {
@@ -69,16 +71,14 @@ ListWeapons(displayMode)
         {
             foreach (index in GetArrayKeys(level.tbl_weaponids))
             {
-                self thread TellPlayer(array(getweapondisplayname(level.tbl_weaponids[index]["reference"] + "_mp")), waitTime);
-                wait waitTime;
+                PrintLn(getweapondisplayname(level.tbl_weaponids[index]["reference"] + "_mp"));
             }
         }
         else
         {
             foreach (index in GetArrayKeys(level.tbl_weaponids))
             {
-                self thread TellPlayer(array(level.tbl_weaponids[index]["reference"] + "_mp"), waitTime);
-                wait waitTime;
+                PrintLn(level.tbl_weaponids[index]["reference"] + "_mp");
             }
         }
     }
@@ -88,16 +88,14 @@ ListWeapons(displayMode)
         {
             foreach (weapon in GetArrayKeys(level.zombie_weapons))
             {
-                self thread TellPlayer(array(getweapondisplayname(weapon)), waitTime);
-                wait waitTime;
+                PrintLn(getweapondisplayname(weapon));
             }
         }
         else
         {
             foreach (weapon in GetArrayKeys(level.zombie_weapons))
             {
-                self thread TellPlayer(array(weapon), waitTime);
-                wait waitTime;
+                PrintLn(weapon);
             }
         }
     }
@@ -139,26 +137,44 @@ ListAttachments(weaponName)
         attachmentsFinal = AddElementToArray(attachmentsFinal, StrTok(attachment, "_")[0]);
     }
 
-    self thread TellPlayer(attachmentsFinal, 2);
+    PrintLn("-------------------------------");
+    PrintLn("Available attachments for " + getweapondisplayname(finalWeaponName) + " (" + StrTok(finalWeaponName, "_mp")[0] + "_mp" + ")");
+    PrintLn("-------------------------------");
 
-    if (DebugIsOn())
+    foreach (attachment in attachmentsFinal)
     {
-        Print("-------------------------------");
-        Print("Available attachments for " + getweapondisplayname(finalWeaponName) + " (" + StrTok(finalWeaponName, "_mp")[0] + "_mp" + ")");
-
-        foreach (attachment in attachmentsFinal)
-        {
-            Print(attachment);
-        }
+        PrintLn(attachment);
     }
 }
 
 ListPowerups()
 {
-    self thread TellPlayer(GetAvailablePowerups(), 2);
+    powerups = GetAvailablePowerups();
+
+    self thread TellPlayer(powerups, 2);
+
+    PrintLn("-------------------------------");
+    PrintLn("Available powerups");
+    PrintLn("-------------------------------");
+
+    foreach (powerup in powerups)
+    {
+        PrintLn(powerup);
+    }
 }
 
 ListPerks()
 {
-    self thread TellPlayer(GetAvailablePerks(), 2);
+    perks = GetAvailablePerks();
+
+    self thread TellPlayer(perks, 2);
+
+    PrintLn("-------------------------------");
+    PrintLn("Available perks");
+    PrintLn("-------------------------------");
+
+    foreach (perk in perks)
+    {
+        PrintLn(perk);
+    }
 }
