@@ -60,7 +60,7 @@ ThreadGodMode()
     
     for(;;)
     {
-        self waittill("spawned_player");
+        self waittill_any("spawned_player", "gr_eject_sequence_complete"); // Origins robot ejected
 
         self DoGodMode(true);
     }
