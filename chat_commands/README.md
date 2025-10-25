@@ -8,14 +8,18 @@ If you do monitor your server with [IW4MAdmin](https://github.com/RaidMax/IW4M-A
 The `chat_command` scripts you find here work for both MP and ZM and can be placed in the `scripts` folder.  
 MP only scripts are in the [mp](mp) folder and ZM only scripts are in the [zm](zm) folder.
 
+- **[IMPORTANT]** For dedicated servers, by default, each command is available on any server listed in the `level.chat_commands["ports"]` array variable declared in `chat_commands.gsc`.  
+If you use a port other than 4976 and 4977 you have to add them manually to this array to be used by any command.  
+If a specific command should only be available on certain server(s) (ports) then edit the CreateCommand function in the command's script to use an array you declare yourself with the port(s) you want
+
 ## chat_commands.gsc
 
 The core script that holds the configuration, runs all the chat logic and holds utils function that are shared between all the `chat_command` scripts.  
 
-**[IMPORTANT]** Installing `chat_commands.gsc` is **mandatory** to make the commands work as this is the core of this whole system and all the command scripts depend on it.  
-**[IMPORTANT]** By default `chat_commands.gsc` is made to be placed in the `scripts` folder.  
+- **[IMPORTANT]** Installing `chat_commands.gsc` is **mandatory** to make the commands work as this is the core of this whole system and all the command scripts depend on it.  
+- **[IMPORTANT]** By default `chat_commands.gsc` is made to be placed in the `scripts` folder.  
 If you place it in the `scripts\mp` or `scripts\zm` folder instead then you will need to update the include of each command script accordingly (first line) or you will get errors.  
-You simply have to replace `#include scripts\chat_commands` with `#include scripts\mp\chat_commands;` or `#include scripts\zm\chat_commands;` in each of your command script.
+You simply have to replace `#include scripts\chat_commands` with `#include scripts\mp\chat_commands;` or `#include scripts\zm\chat_commands;` in each of your command script.  
 
 Also note that `chat_commands.gsc` doesn't provide any command on its own.  
 You must install at least one command script to be able to use commands. Otherwise it will always say that you don't have any command.
