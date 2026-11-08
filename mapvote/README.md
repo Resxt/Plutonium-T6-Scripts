@@ -2,8 +2,9 @@
 
 A customizable mapvote script for both multiplayer and zombies.  
 
-Note that this only works for dedicated servers.  
-You can still run the script in a private match to get a preview of the menu and configure it the way you like before using it on your server but it won't rotate to your chosen map/mode due to a technical limitation the game has.  
+**[IMPORTANT]** To work in custom games this **requires** installing server config files found in the [server setup documentation](https://plutonium.pw/docs/server/t6/setting-up-a-server/#1-preparation) ([direct download link](https://github.com/xerxes-at/T6ServerConfigs/archive/master.zip)).  
+If installed properly you should have a `gamesettings` folder and `dedicated.cfg` file in `%localappdata%\Plutonium\storage\t6`.  
+You don't need the bat files in your game folder, just the localappdata part
 
 This is heavily inspired by [LastDemon99's IW5 mapvote](https://github.com/LastDemon99/IW5_VoteSystem).  
 I also re-used some code from [DoktorSAS T6 mapvote](https://github.com/DoktorSAS/PlutoniumT6Mapvote).  
@@ -19,7 +20,6 @@ Huge thanks to both of them.
 
 This script can be installed in any folder depending on what you want to do.  
 The recommended solution is to just install it in the `scripts` folder so that it will work out of the box for both mp and zm.  
-Since it's disabled by default it won't affect your servers or run unless you enable it so it's safe to have it in the `scripts` folder.
 
 **[IMPORTANT]** Installing `mapvote_mp_extend.gsc` in `scripts\mp` is **mandatory** to make the mapvote work normally in multiplayer.  
 **[IMPORTANT]** Installing `mapvote_zm_extend.gsc` in `scripts\zm` is **mandatory** to make the mapvote work normally in zombies.
@@ -42,7 +42,7 @@ Since it's disabled by default it won't affect your servers or run unless you en
 
 To configure the menu before putting it on your server I recommend running it in a custom game with the `mapvote_debug` dvar set to `1`.  
 To do that use this command in the console `set mapvote_debug 1` before running a custom game.  
-Start a custom game and you will see the menu. Everything will work but map rotation which is normal.  
+Start a custom game and you will see the menu.  
 You can then configure the dvars directly in your console and restart the map with `map_restart` in the console to edit the menu quickly and get your perfect setup.
 
 Note that by default the mapvote will be activated on all of your servers.  
