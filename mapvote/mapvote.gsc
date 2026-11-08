@@ -707,8 +707,15 @@ RotateDefault()
 
 DoRotation(modeCfg, mapName)
 {
-    SetDvar("sv_maprotationcurrent", "execgts " + modeCfg + ".cfg map " + mapName);
-    SetDvar("sv_maprotation", "execgts " + modeCfg + ".cfg map " + mapName);
+    if (IsDedicated())
+    {
+        SetDvar("sv_maprotationcurrent", "execgts " + modeCfg + ".cfg map " + mapName);
+        SetDvar("sv_maprotation", "execgts " + modeCfg + ".cfg map " + mapName);
+    }
+    else
+    {
+        cmdexec("execgts " + modeCfg + ".cfg; map " + mapName);
+    }
 }
 
 StartRotation()
